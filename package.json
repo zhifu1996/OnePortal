@@ -1,5 +1,5 @@
 {
-  "name": "onedrive-vercel-index",
+  "name": "onedrive-list",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,15 +20,15 @@
     "@tailwindcss/line-clamp": "^0.4.2",
     "@vercel/analytics": "^1.0.1",
     "awesome-debounce-promise": "^2.1.0",
-    "axios": "^1.5.1",
-    "crypto-js": "^4.1.1",
+    "axios": "1.7.4",
+    "crypto-js": "4.2.0",
     "csstype": "^3.1.1",
     "dayjs": "^1.11.7",
     "emoji-regex": "^10.2.1",
     "ioredis": "^5.3.0",
     "jszip": "^3.10.1",
     "mpegts.js": "^1.7.2",
-    "next": "^13.1.6",
+    "next": "15.1.2",
     "nextjs-progressbar": "^0.0.16",
     "path-browserify": "^1.0.1",
     "plyr-react": "^5.1.2",
@@ -53,7 +53,7 @@
     "swr": "^2.0.3",
     "use-clipboard-copy": "^0.2.0",
     "use-constant": "^1.1.1",
-    "wrangler": "^3.13.1"
+    "wrangler": "3.19.0"
   },
   "devDependencies": {
     "vercel": "39.1.1",

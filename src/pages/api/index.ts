@@ -109,8 +109,7 @@ export function getAuthTokenPath(path: string) {
  *
  * @param cleanPath Sanitised directory path, used for matching whether route is protected
  * @param accessToken OneDrive API access token
- * @param req Next.js request object
- * @param res Next.js response object
+ * @param odTokenHeader The header to identify and login if user has entered password before
  */
 export async function checkAuthRoute(
   cleanPath: string,
@@ -150,7 +149,7 @@ export async function checkAuthRoute(
     if (error?.response?.status === 404) {
       return { code: 404, message: "You didn't set a password." }
     } else {
-      return { code: 500, message: 'Internal server error.' }
+      return { code: 500, message: 'Internal server error. This may also on account of you not setting a password.' }
     }
   }
 
@@ -179,6 +178,8 @@ export default async function handler(req: NextRequest): Promise<Response> {
     await storeOdAuthTokens({ accessToken, accessTokenExpiry, refreshToken })
     return new Response('OK')
   }
+
+  console.log("[[]]Here")
 
   // TODO: Set edge function caching for faster load times
 

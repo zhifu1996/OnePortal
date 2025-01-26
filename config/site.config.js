@@ -14,14 +14,14 @@ module.exports = {
   icon: '/icons/128.png',
 
   // The name of your website. Present alongside your icon.
-  title: "OneDrive List",
+  title: process.env.NEXT_PUBLIC_TITLE || "OneDrive List",
 
   // The folder that you are to share publicly with onedrive-cf-index-ng. Use '/' if you want to share your root folder.
   baseDirectory: process.env.BASE_DIRECTORY || '/',
 
   // [OPTIONAL] This represents the maximum number of items that one directory lists, pagination supported.
   // Do note that this is limited up to 200 items by the upstream OneDrive API.
-  maxItems: 100,
+  maxItems: process.env.MAX_ITEMS || 100,
 
   // [OPTIONAL] We use Google Fonts natively for font customisations.
   // You can check and generate the required links and names at https://fonts.google.com.
@@ -34,7 +34,7 @@ module.exports = {
 
   // [OPTIONAL] The footer component of your website. You can write HTML here, but you need to escape double
   // quotes - changing " to \". You can write anything here, and if you like badges, generate some with https://shields.io
-  footer:
+  footer: process.env.FOOTER ||
     'Powered by <a href="https://github.com/EFLKumo/onedrive-list" target="_blank" rel="noopener noreferrer">onedrive-list</a>. Made with ❤ by spencerwooo, lyc8503, EFL and other contributors.',
 
   // [OPTIONAL] This is where you specify the folders that are password protected. It is an array of paths pointing to all

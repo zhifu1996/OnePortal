@@ -179,8 +179,6 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response('OK')
   }
 
-  console.log("[[]]Here")
-
   // TODO: Set edge function caching for faster load times
 
   // If method is GET, then the API is a normal request to the OneDrive API for files or folders

@@ -128,6 +128,7 @@ const Navbar = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
+              {/* TODO: Dialog.Overlay is removed from newer version of headlessui */}
               <Dialog.Overlay className="fixed inset-0 bg-gray-50 dark:bg-gray-800" />
             </Transition.Child>
 

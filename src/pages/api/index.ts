@@ -1,6 +1,6 @@
 import { posix as pathPosix } from 'path-browserify'
-
 import axios from 'redaxios'
+import { TOTP } from 'totp-generator'
 
 import apiConfig from '../../../config/api.config'
 import siteConfig from '../../../config/site.config'
@@ -78,25 +78,75 @@ export async function getAccessToken(): Promise<string> {
 }
 
 /**
- * Match protected routes in site config to get path to required auth token
- * @param path Path cleaned in advance
- * @returns Path to required auth token. If not required, return empty string.
+ * Helper function to check if the file exists.
+ * @param filePath Path of file to check
+ * @param accessToken Access token of OneDrive
  */
-export function getAuthTokenPath(path: string) {
+async function checkFileExists(filePath: string, accessToken: string): Promise<boolean> {
+  try {
+    await axios.get(`${apiConfig.driveApi}/root${encodePath(filePath)}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return true;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+/**
+ * Match protected routes in site config to get path of password or totp token.
+ * @param path Path cleaned in advance
+ * @param accessToken Access token of OneDrive
+ * @returns Path to required password or totp token. If not required, return empty string.
+ */
+export async function getAuthFilePath(path: string, accessToken: string) {
   // Ensure trailing slashes to compare paths component by component. Same for protectedRoutes.
   // Since OneDrive ignores case, lower case before comparing. Same for protectedRoutes.
   path = path.toLowerCase() + '/'
   const protectedRoutes = siteConfig.protectedRoutes as string[]
-  let authTokenPath = ''
+  let authFilePath = ''
+
   for (let r of protectedRoutes) {
     if (typeof r !== 'string') continue
     r = r.toLowerCase().replace(/\/$/, '') + '/'
     if (path.startsWith(r)) {
-      authTokenPath = `${r}.password`
-      break
+      const totpPath = `${r}.totp`;
+      const totpExists = await checkFileExists(totpPath, accessToken);
+      if (totpExists) {
+        authFilePath = totpPath;
+        break;
+      }
+
+      const passwordPath = `${r}.password`;
+      const passwordExists = await checkFileExists(passwordPath, accessToken);
+      if (passwordExists) {
+        authFilePath = passwordPath;
+        break;
+      }
     }
   }
-  return authTokenPath
+  return authFilePath
+}
+
+/**
+ * Helper function to fetch .password or .totp file
+ * @param filePath
+ * @param accessToken
+ */
+const fetchProtectedContent = async (
+  filePath: string,
+  accessToken: string
+): Promise<string> => {
+  const response = await axios.get(`${apiConfig.driveApi}/root${encodePath(filePath)}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    params: {
+      select: '@microsoft.graph.downloadUrl,file',
+    },
+  })
+
+  const downloadUrl = response.data['@microsoft.graph.downloadUrl']
+  const content = await axios.get(downloadUrl)
+  return content.data.toString()
 }
 
 /**
@@ -114,46 +164,49 @@ export function getAuthTokenPath(path: string) {
 export async function checkAuthRoute(
   cleanPath: string,
   accessToken: string,
-  odTokenHeader: string
+  odTokenHeader: string,
 ): Promise<{ code: 200 | 401 | 404 | 500; message: string }> {
-  // Handle authentication through .password
-  const authTokenPath = getAuthTokenPath(cleanPath)
-
-  // Fetch password from remote file content
-  if (authTokenPath === '') {
-    return { code: 200, message: '' }
-  }
-
   try {
-    const token = await axios.get(`${apiConfig.driveApi}/root${encodePath(authTokenPath)}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: {
-        select: '@microsoft.graph.downloadUrl,file',
-      },
-    })
+    // Handle authentication through .password or .totp
+    const authFilePath = await getAuthFilePath(cleanPath, accessToken)
 
-    // Handle request and check for header 'od-protected-token'
-    const odProtectedToken = await axios.get(token.data['@microsoft.graph.downloadUrl'])
-    // console.log(odTokenHeader, odProtectedToken.data.trim())
+    // Fetch password from remote file content
+    if (authFilePath === '') {
+      return { code: 200, message: 'Authenticated.' }
+    }
 
-    if (
-      !compareHashedToken({
-        odTokenHeader: odTokenHeader,
-        dotPassword: odProtectedToken.data.toString(),
-      })
-    ) {
-      return { code: 401, message: 'Password required.' }
+    if (authFilePath.endsWith('.totp')) {
+      const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
+      const totpCode = TOTP.generate(totpSecret).otp
+
+      if (!compareHashedToken({ odTokenHeader, secret: totpCode })) {
+        return { code: 401, message: 'TOTP code required.' }
+      }
+      return { code: 200, message: 'Authenticated.' }
+    }
+
+    if (authFilePath.endsWith('.password')) {
+      const password = await fetchProtectedContent(authFilePath, accessToken)
+
+      if (!compareHashedToken({ odTokenHeader, secret: password })) {
+        return { code: 401, message: 'Password required.' }
+      }
+      return { code: 200, message: 'Authenticated.' }
     }
   } catch (error: any) {
-    // Password file not found, fallback to 404
     if (error?.response?.status === 404) {
-      return { code: 404, message: "You didn't set a password." }
-    } else {
-      return { code: 500, message: 'Internal server error. This may also on account of you not setting a password.' }
+      return {
+        code: 404,
+        message: "Authentication file not found."
+      }
+    }
+    return {
+      code: 500,
+      message: 'Internal server error. Please check your authentication configuration.'
     }
   }
-
-  return { code: 200, message: 'Authenticated.' }
+  // Should not reach here, but just in case
+  return { code: 500, message: 'Internal server error.' };
 }
 
 export default async function handler(req: NextRequest): Promise<Response> {

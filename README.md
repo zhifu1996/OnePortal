@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./public/header.png" alt="onedrive-cf-index-ng" />
-  <h3><a href="https://pan.lyc8503.net">onedrive-cf-index-ng</a></h3>
-  <p><em>OneDrive public directory listing forked from <a href="https://github.com/spencerwooo/onedrive-vercel-index">onedrive-vercel-index</a>, powered by Cloudflare and Next.js</em></p>
+  <img src="./public/header.png" alt="onedrive-list" />
+  <h2>onedrive-list</h2>
+  <p><em>OneDrive public directory listing forked from <a href="https://github.com/lyc8503/onedrive-cf-index-ng">onedrive-cf-index-ng</a>, powered by Cloudflare and Next.js</em></p>
 
   <img src="https://img.shields.io/badge/OneDrive-2C68C3?style=flat&logo=microsoft-onedrive&logoColor=white" alt="OneDrive" />
   <img src="https://img.shields.io/badge/Cloudflare-f38020?style=flat&logo=Cloudflare&logoColor=white" alt="Cloudflare" />
@@ -10,12 +10,9 @@
 </div>
 
 ## What's different
-- Now it can be deployed on Cloudflare Pages for free!
-- Also support [Docker Deployment](https://github.com/lyc8503/onedrive-cf-index-ng/wiki/Docker-Deployment) now!
-- No more dependency on Upstash / 3rd-party service
-- Maybe some future maintenance or improvements from me ([@lyc8503](https://github.com/lyc8503))
+--TODO--
 
-*Special thanks to the original author of this project [@spencerwooo](https://github.com/spencerwooo) and all contributors*
+*Special thanks to the original author of od-cf-index-ng [@lyc8503](https://github.com/lyc8503) and author of onedrive-vercel-index [@spencerwooo](https://github.com/spencerwooo) and all contributors.*
 
 
 ## TL;DR
@@ -29,15 +26,14 @@ Showcase, share, preview, and download files inside *your* OneDrive with onedriv
 
 🍌 More importantly, we are pretty (●'◡'●)
 
-## Quick start
-
-🚀 Quick start: [Getting started](https://github.com/lyc8503/onedrive-cf-index-ng/wiki/Getting-Started).
+## 🚀 Quick start
+--TODO--
 
 *If you happen to like this project, please give it a star!* :3
 
 ## Demo
 
-Live demo at [lyc8503's Fileshare](https://pan.lyc8503.net).
+Live demo at [here](https://odl-demo.eflx.top).
 
 ![demo](./public/demo.png)
 
@@ -138,14 +134,16 @@ Yes! Completely free with no backend server what-so-ever.
 [MIT](LICENSE)
 
 ## Some TODOs
-- [ ] Documentation migration
-- [x] Local/Docker deployment support
-- [ ] Some TODOs left in the code
-- [x] More tests
+- [x] More environment variable settings
+- [x] Support TOTP
+- [ ] Long period of TOTP authentication
+- [ ] Better UI
+- [ ] Cloudflare-proxied downloading
+- [ ] TODOs in files
 
 <div align="center">
   <img src="./public/footer.png" />
-  <em>made with ❤️ by <a href="https://lyc8503.net">lyc8503</a> & <a href="https://spencerwoo.com">spencer woo</a></em>
+  <em>made with ❤️ by <a href="https://eflx.top">EFL</a> & <a href="https://lyc8503.net">lyc8503</a> & <a href="https://spencerwoo.com">spencer woo</a> and contributors</em>
 </div>
 
 

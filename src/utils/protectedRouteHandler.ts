@@ -21,12 +21,12 @@ export function getStoredToken(path: string): string | null {
  */
 export function compareHashedToken({
   odTokenHeader,
-  dotPassword,
+  secret,
 }: {
   odTokenHeader: string
-  dotPassword: string
+  secret: string
 }): boolean {
-  return encryptToken(dotPassword.trim()) === odTokenHeader
+  return encryptToken(secret.trim()) === odTokenHeader
 }
 /**
  * Match the specified route against a list of predefined routes

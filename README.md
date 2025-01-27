@@ -20,8 +20,8 @@
 Showcase, share, preview, and download files inside *your* OneDrive with onedrive-cf-index-ng -
 
 - Completely free to host 💸
-- Super fast ⚡ and responsive 💦
-- Takes less than 15 minutes to setup ⏱️
+- Superfast ⚡ and responsive 💦
+- Takes less than 15 minutes to set up ⏱️
 - Highly customisable ⚒️
 
 🍌 More importantly, we are pretty (●'◡'●)
@@ -115,7 +115,7 @@ Documentation is hosted at [GitHub Wiki](https://github.com/lyc8503/onedrive-cf-
 - [How can I get started and deploy?](https://github.com/lyc8503/onedrive-cf-index-ng/wiki/Getting-Started)
 - [How can I configure ... ?](https://github.com/lyc8503/onedrive-cf-index-ng/wiki/Configurations)
 - Where is feature ... ?
-  - [Docs - Password protected folders](https://ovi.swo.moe/docs/features/protected-folders)
+  - [Docs - Password-protected folders](https://ovi.swo.moe/docs/features/protected-folders)
   - [Docs - Multi-file and folder download](https://ovi.swo.moe/docs/features/multi-file-folder-download)
   - [Docs - Hosting files (images) directly](https://ovi.swo.moe/docs/features/hosting-images-directly)
   - [Docs - Search for files and folders](https://ovi.swo.moe/docs/features/search-for-files-and-folders)

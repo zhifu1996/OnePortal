@@ -34,25 +34,32 @@ module.exports = {
 
   // [OPTIONAL] The footer component of your website. You can write HTML here, but you need to escape double
   // quotes - changing " to \". You can write anything here, and if you like badges, generate some with https://shields.io
-  footer: process.env.FOOTER ||
+  footer: process.env.NEXT_PUBLIC_FOOTER ||
     'Powered by <a href="https://github.com/EFLKumo/onedrive-list" target="_blank" rel="noopener noreferrer">onedrive-list</a>. Made with ❤ by spencerwooo, lyc8503, EFL and other contributors.',
 
   // [OPTIONAL] This is where you specify the folders that are password protected. It is an array of paths pointing to all
   // the directories in which you have .password set. Check the documentation for details.
-  protectedRoutes: ['/Private/Personal', '/Demo/😎Another Private Folder Password 123'],
+  protectedRoutes: process.env.NEXT_PUBLIC_ROUTES
+    ? process.env.NEXT_PUBLIC_ROUTES.split(',')
+    : ['/Private/Personal', '/Demo/😎Another Private Folder Password 123'],
 
   // [OPTIONAL] Use "" here if you want to remove this email address from the nav bar.
-  email: 'mailto:i@example.com',
+  email: process.env.NEXT_PUBLIC_EMAIL || 'mailto:i@example.com',
 
   // [OPTIONAL] This is an array of names and links for setting your social information and links.
   // In the latest update, all brand icons inside font awesome is supported and the icon to render is based on the name
   // you provide. See the documentation for details.
-  links: [
-    {
-      name: 'GitHub',
-      link: 'https://github.com',
-    },
-  ],
+  links: process.env.NEXT_PUBLIC_LINKS
+    ? JSON.parse(process.env.NEXT_PUBLIC_LINKS)
+    : [],
+    /*
+    [
+      {
+        name: 'GitHub',
+        link: 'https://github.com',
+      },
+    ],
+    */
 
   // This is a day.js-style datetime format string to format datetimes in the app. Ref to
   // https://day.js.org/docs/en/display/format for detailed specification. The default value is ISO 8601 full datetime

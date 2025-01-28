@@ -229,8 +229,6 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response('OK')
   }
 
-  // TODO: Set edge function caching for faster load times
-
   // If method is GET, then the API is a normal request to the OneDrive API for files or folders
   const { path = '/', next = '', sort = '' } = Object.fromEntries(req.nextUrl.searchParams)
 
@@ -283,6 +281,10 @@ export default async function handler(req: NextRequest): Promise<Response> {
       },
     })
 
+    // Set edge function caching for faster load times
+    const headers: HeadersInit = {}
+    headers['Cache-Control'] = apiConfig.cacheControlHeader
+
     if ('folder' in identityData) {
       const { data: folderData } = await axios.get(`${requestUrl}${isRoot ? '' : ':'}/children`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -303,12 +305,21 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
       // Return paging token if specified
       if (nextPage) {
-        return NextResponse.json({ folder: folderData, next: nextPage })
+        return new NextResponse(
+          JSON.stringify({ folder: folderData, next: nextPage }),
+          { headers }
+        )
       } else {
-        return NextResponse.json({ folder: folderData })
+        return new NextResponse(
+          JSON.stringify({ folder: folderData }),
+          { headers }
+        )
       }
     }
-    return NextResponse.json({ file: identityData })
+    return new NextResponse(
+      JSON.stringify({ file: identityData }),
+      { headers }
+    )
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
       status: error?.response?.code ?? 500,

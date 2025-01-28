@@ -13,8 +13,6 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // Get item details (specifically, its path) by its unique ID in OneDrive
   const { id = '' } = Object.fromEntries(req.nextUrl.searchParams)
 
-  // TODO: Set edge function caching for faster load times
-
   if (typeof id === 'string') {
     const idPattern = /^[a-zA-Z0-9]+$/
     if (!idPattern.test(id)) {
@@ -30,7 +28,14 @@ export default async function handler(req: NextRequest): Promise<Response> {
           select: 'id,name,parentReference',
         },
       })
-      return NextResponse.json(data)
+
+      return new NextResponse(JSON.stringify(data), {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'Cache-Control': apiConfig.cacheControlHeader
+        }
+      })
     } catch (error: any) {
       return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
         status: error?.response?.status ?? 500,

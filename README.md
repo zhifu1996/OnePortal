@@ -140,7 +140,7 @@ Yes! Completely free with no backend server what-so-ever.
 - [x] Better UI
 - [x] Update dependencies and migrate codes
 - [ ] Support Cloudflare-proxied downloading / raw / direct downloading
-- [ ] TODOs in files
+- [x] TODOs in files
 
 <div align="center">
   <img src="./public/footer.png"  alt="footer"/>

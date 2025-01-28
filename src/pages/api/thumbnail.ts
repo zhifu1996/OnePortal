@@ -19,9 +19,6 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // Get item thumbnails by its path since we will later check if it is protected
   const { path = '', size = 'medium', odpt = '' } = Object.fromEntries(req.nextUrl.searchParams)
 
-  // TODO: Set edge function caching for faster load times, if route is not protected
-  // if (odpt === '') res.setHeader('Cache-Control', apiConfig.cacheControlHeader)
-
   // Check whether the size is valid - must be one of 'large', 'medium', or 'small'
   if (size !== 'large' && size !== 'medium' && size !== 'small') {
     return new Response(JSON.stringify({ error: 'Invalid size.' }), { status: 400 })
@@ -41,9 +38,6 @@ export default async function handler(req: NextRequest): Promise<Response> {
   if (code !== 200) {
     return new Response(JSON.stringify({ error: message }), { status: code })
   }
-  // If message is empty, then the path is not protected.
-  // Conversely, protected routes are not allowed to serve from cache.
-  // TODO
 
   const requestPath = encodePath(cleanPath)
   // Handle response from OneDrive API
@@ -58,7 +52,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
     const thumbnailUrl = data.value && data.value.length > 0 ? (data.value[0] as OdThumbnail)[size].url : null
     if (thumbnailUrl) {
-      return Response.redirect(thumbnailUrl)
+      const headers = new Headers({
+        Location: thumbnailUrl
+      })
+      if (code === 200) headers.set('Cache-Control', apiConfig.cacheControlHeader)
+      return new Response(null, { status: 302, headers })
     } else {
       return new Response(JSON.stringify({ error: "The item doesn't have a valid thumbnail." }), { status: 400 })
     }

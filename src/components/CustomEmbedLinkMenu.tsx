@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from 'react'
-import { Dialog, DialogPanel, DialogBackdrop, Transition, TransitionChild } from '@headlessui/react'
+import { Dialog, DialogPanel, DialogBackdrop, DialogTitle, Description, Transition, TransitionChild } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -10,18 +10,22 @@ import { getReadablePath } from '../utils/getReadablePath'
 function LinkContainer({ title, value }: { title: string; value: string }) {
   const clipboard = useClipboard({ copiedTimeout: 1000 })
   return (
-    <>
-      <h4 className="py-2 text-xs font-medium uppercase tracking-wider">{title}</h4>
-      <div className="group relative mb-2 max-h-24 overflow-y-scroll break-all rounded border border-gray-400/20 bg-gray-50 p-2.5 font-mono dark:bg-gray-800">
-        <div className="opacity-80">{value}</div>
+    <div className="mt-4">
+      <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">{title}</h4>
+      <div className="group relative mt-2 rounded-xl border border-gray-200/50 bg-white/50 p-3 font-mono dark:border-gray-700/50 dark:bg-gray-700/50">
+        <div className="pr-8 text-sm text-gray-600 dark:text-gray-300 break-all">{value}</div>
         <button
           onClick={() => clipboard.copy(value)}
-          className="absolute right-[0.2rem] top-[0.2rem] w-8 rounded border border-gray-400/40 bg-gray-100 py-1.5 opacity-0 transition-all duration-100 group-hover:opacity-100 hover:bg-gray-200 dark:bg-gray-850 dark:hover:bg-gray-700"
+          className="absolute right-2 top-2 rounded-lg border border-gray-200/50 bg-white/80 p-2 opacity-0 transition-all hover:bg-gray-100 group-hover:opacity-100 dark:border-gray-700/50 dark:bg-gray-800/80 dark:hover:bg-gray-700/80"
         >
-          {clipboard.copied ? <FontAwesomeIcon icon="check" /> : <FontAwesomeIcon icon="copy" />}
+          {clipboard.copied ? (
+            <FontAwesomeIcon icon="check" className="h-4 w-4 text-green-500" />
+          ) : (
+            <FontAwesomeIcon icon="copy" className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+          )}
         </button>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -57,7 +61,7 @@ export default function CustomEmbedLinkMenu({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <DialogBackdrop className="fixed inset-0 bg-white/60 dark:bg-gray-800/60" />
+            <DialogBackdrop className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm" />
           </TransitionChild>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -73,28 +77,29 @@ export default function CustomEmbedLinkMenu({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="inline-block max-h-[80vh] w-full max-w-3xl transform overflow-hidden overflow-y-scroll rounded border border-gray-400/30 bg-white p-4 text-left align-middle text-sm shadow-xl transition-all dark:bg-gray-900 dark:text-white">
-              <Dialog.Title as="h3" className="py-2 text-xl font-bold">
+            <DialogPanel className="my-8 inline-block w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white/80 p-6 text-left align-middle shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
+              <DialogTitle as="h3" className="text-xl font-bold text-gray-900 dark:text-gray-100">
                 {'Customise direct link'}
-              </Dialog.Title>
-              <Dialog.Description as="p" className="py-2 opacity-80">
+              </DialogTitle>
+
+              <Description as="p" className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                 <>
                   {'Change the raw file direct link to a URL ending with the extension of the file.'}{' '}
                   <a
                     href="https://ovi.swo.moe/docs/features/customise-direct-link"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline"
+                    className="text-blue-400 hover:text-blue-500 dark:text-blue-500 dark:hover:text-blue-400"
                   >
                     {'What is this?'}
                   </a>
                 </>
-              </Dialog.Description>
+              </Description>
 
-              <div className="mt-4">
-                <h4 className="py-2 text-xs font-medium uppercase tracking-wider">{'Filename'}</h4>
+              <div className="mt-6">
+                <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">{'Filename'}</h4>
                 <input
-                  className="mb-2 w-full rounded border border-gray-600/10 p-2.5 font-mono focus:outline-none focus:ring focus:ring-blue-300 dark:bg-gray-600 dark:text-white dark:focus:ring-blue-700"
+                  className="mt-2 w-full rounded-xl border border-gray-200/50 bg-white/50 p-3 font-mono text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:border-gray-700/50 dark:bg-gray-700/50 dark:text-white"
                   ref={focusInputRef}
                   value={name}
                   onChange={e => setName(e.target.value)}

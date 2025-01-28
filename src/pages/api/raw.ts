@@ -37,7 +37,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   let headers = {
     'Cache-Control': cacheControlHeader,
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
   }
 
   // If message is empty, then the path is not protected.
@@ -71,7 +71,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
         return new Response()
       } else {
         headers['Location'] = data['@microsoft.graph.downloadUrl'] as string
-        return new Response(null, { status: 302, headers: headers})
+        return new Response(null, { status: 302, headers: headers })
       }
     } else {
       return new Response(JSON.stringify({ error: 'No download url found.' }), { status: 404, headers: headers })
@@ -79,7 +79,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
       status: error?.response?.status ?? 500,
-      headers: headers
+      headers: headers,
     })
   }
 }

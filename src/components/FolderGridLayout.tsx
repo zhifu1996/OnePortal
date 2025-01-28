@@ -150,7 +150,7 @@ const FolderGridLayout = ({
                       clipboard.copy(
                         `${getBaseUrl()}/api/raw?path=${getItemPath(c.name)}${
                           hashedToken ? `&odpt=${hashedToken}` : ''
-                        }`
+                        }`,
                       )
                       toast.success('Copied raw file permalink.')
                     }}

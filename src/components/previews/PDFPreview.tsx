@@ -10,7 +10,7 @@ const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {
   const hashedToken = getStoredToken(asPath)
 
   const pdfPath = encodeURIComponent(
-    `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`
+    `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`,
   )
 
   const urlPrefix = siteConfig.PDFPreviewUrlPrefix

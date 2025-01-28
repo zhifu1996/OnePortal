@@ -30,7 +30,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
   const [buttonContent, setButtonContent] = useState(
     <div>
       <span>{'Store tokens'}</span> <FontAwesomeIcon icon="key" />
-    </div>
+    </div>,
   )
   const [buttonError, setButtonError] = useState(false)
 
@@ -39,7 +39,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
     setButtonContent(
       <div>
         <span>{'Storing tokens'}</span> <LoadingIcon className="ml-1 inline h-4 w-4 animate-spin" />
-      </div>
+      </div>,
     )
 
     await sendTokenToServer(accessToken, refreshToken, expiryTime)
@@ -48,7 +48,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
         setButtonContent(
           <div>
             <span>{'Stored! Going home...'}</span> <FontAwesomeIcon icon="check" />
-          </div>
+          </div>,
         )
         setTimeout(() => {
           router.push('/')
@@ -59,7 +59,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
         setButtonContent(
           <div>
             <span>{'Error storing the token'}</span> <FontAwesomeIcon icon="exclamation-circle" />
-          </div>
+          </div>,
         )
       })
   }
@@ -154,17 +154,19 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
                 </p>
                 <p className="py-1">
                   {'Final step, click the button below to store these tokens persistently before they expire ' +
-                    `after ${Math.floor(expiryTimeLeft / 60)} minutes ${expiryTimeLeft - Math.floor(expiryTimeLeft / 60) * 60
+                    `after ${Math.floor(expiryTimeLeft / 60)} minutes ${
+                      expiryTimeLeft - Math.floor(expiryTimeLeft / 60) * 60
                     } seconds. ` +
                     "Don't worry, after storing them, OnePortal will take care of token refreshes and updates after your site goes live."}
                 </p>
 
                 <div className="mb-2 mt-6 text-right">
                   <button
-                    className={`rounded-lg bg-gradient-to-br px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:ring-4 ${buttonError
-                      ? 'from-red-500 to-orange-400 focus:ring-red-200 dark:focus:ring-red-800'
-                      : 'from-green-500 to-teal-300 focus:ring-green-200 dark:focus:ring-green-800'
-                      }`}
+                    className={`rounded-lg bg-gradient-to-br px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:ring-4 ${
+                      buttonError
+                        ? 'from-red-500 to-orange-400 focus:ring-red-200 dark:focus:ring-red-800'
+                        : 'from-green-500 to-teal-300 focus:ring-green-200 dark:focus:ring-green-800'
+                    }`}
                     onClick={sendAuthTokensToServer}
                   >
                     {buttonContent}
@@ -216,16 +218,20 @@ export async function getServerSideProps({ query }) {
   if (status !== 200) {
     return {
       props: {
-        error: "Non-200 response from Microsoft Graph API",
-        description: JSON.stringify(data)
+        error: 'Non-200 response from Microsoft Graph API',
+        description: JSON.stringify(data),
       },
     }
   }
   if (data.userPrincipalName !== siteConfig.userPrincipalName) {
     return {
       props: {
-        error: "Do not pretend to be the owner!",
-        description: "Authenticated user: " + data.userPrincipalName + "\n" + "UserPrincipalName in your config should match the authenticated user here!"
+        error: 'Do not pretend to be the owner!',
+        description:
+          'Authenticated user: ' +
+          data.userPrincipalName +
+          '\n' +
+          'UserPrincipalName in your config should match the authenticated user here!',
       },
     }
   }

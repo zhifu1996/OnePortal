@@ -138,7 +138,7 @@ Yes! Completely free with no backend server what-so-ever.
 - [x] Support TOTP
 - [x] Hide API clientId and secret
 - [x] Better UI
-- [ ] Update dependencies and migrate codes
+- [x] Update dependencies and migrate codes
 - [ ] Support Cloudflare-proxied downloading / raw / direct downloading
 - [ ] TODOs in files
 

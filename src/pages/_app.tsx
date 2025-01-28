@@ -115,7 +115,7 @@ library.add(
   faThList,
   faLanguage,
   faPen,
-  ...iconList
+  ...iconList,
 )
 
 function MyApp({ Component, pageProps }: AppProps) {

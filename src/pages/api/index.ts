@@ -86,10 +86,10 @@ async function checkFileExists(filePath: string, accessToken: string): Promise<b
   try {
     await axios.get(`${apiConfig.driveApi}/root${encodePath(filePath)}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    return true;
+    })
+    return true
   } catch (error: any) {
-    return false;
+    return false
   }
 }
 
@@ -110,18 +110,18 @@ export async function getAuthFilePath(path: string, accessToken: string) {
     if (typeof r !== 'string') continue
     r = r.toLowerCase().replace(/\/$/, '') + '/'
     if (path.startsWith(r)) {
-      const totpPath = `${r}.totp`;
-      const totpExists = await checkFileExists(totpPath, accessToken);
+      const totpPath = `${r}.totp`
+      const totpExists = await checkFileExists(totpPath, accessToken)
       if (totpExists) {
-        authFilePath = totpPath;
-        break;
+        authFilePath = totpPath
+        break
       }
 
-      const passwordPath = `${r}.password`;
-      const passwordExists = await checkFileExists(passwordPath, accessToken);
+      const passwordPath = `${r}.password`
+      const passwordExists = await checkFileExists(passwordPath, accessToken)
       if (passwordExists) {
-        authFilePath = passwordPath;
-        break;
+        authFilePath = passwordPath
+        break
       }
     }
   }
@@ -133,10 +133,7 @@ export async function getAuthFilePath(path: string, accessToken: string) {
  * @param filePath
  * @param accessToken
  */
-const fetchProtectedContent = async (
-  filePath: string,
-  accessToken: string
-): Promise<string> => {
+const fetchProtectedContent = async (filePath: string, accessToken: string): Promise<string> => {
   const response = await axios.get(`${apiConfig.driveApi}/root${encodePath(filePath)}`, {
     headers: { Authorization: `Bearer ${accessToken}` },
     params: {
@@ -197,16 +194,16 @@ export async function checkAuthRoute(
     if (error?.response?.status === 404) {
       return {
         code: 404,
-        message: "Authentication file not found."
+        message: 'Authentication file not found.',
       }
     }
     return {
       code: 500,
-      message: 'Internal server error. Please check your authentication configuration.'
+      message: 'Internal server error. Please check your authentication configuration.',
     }
   }
   // Should not reach here, but just in case
-  return { code: 500, message: 'Internal server error.' };
+  return { code: 500, message: 'Internal server error.' }
 }
 
 export default async function handler(req: NextRequest): Promise<Response> {
@@ -221,11 +218,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
     // verify identity of the authenticated user with the Microsoft Graph API
     const { data, status } = await getAuthPersonInfo(accessToken)
     if (status !== 200) {
-      return new Response("Non-200 response from Microsoft Graph API", { status: 500 })
+      return new Response('Non-200 response from Microsoft Graph API', { status: 500 })
     }
 
     if (data.userPrincipalName !== siteConfig.userPrincipalName) {
-      return new Response("Do not pretend to be the owner!", { status: 403 })
+      return new Response('Do not pretend to be the owner!', { status: 403 })
     }
 
     await storeOdAuthTokens({ accessToken, accessTokenExpiry, refreshToken })
@@ -261,7 +258,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
   }
 
   // Handle protected routes authentication
-  const { code, message } = await checkAuthRoute(cleanPath, accessToken, req.headers.get('od-protected-token') as string)
+  const { code, message } = await checkAuthRoute(
+    cleanPath,
+    accessToken,
+    req.headers.get('od-protected-token') as string,
+  )
   // Status code other than 200 means user has not authenticated yet
   if (code !== 200) {
     return new Response(JSON.stringify({ error: message }), { status: code })

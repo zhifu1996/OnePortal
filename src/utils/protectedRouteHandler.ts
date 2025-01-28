@@ -19,13 +19,7 @@ export function getStoredToken(path: string): string | null {
  * @param dotPassword non-hashed .password file
  * @returns whether the two hashes are the same
  */
-export function compareHashedToken({
-  odTokenHeader,
-  secret,
-}: {
-  odTokenHeader: string
-  secret: string
-}): boolean {
+export function compareHashedToken({ odTokenHeader, secret }: { odTokenHeader: string; secret: string }): boolean {
   return encryptToken(secret.trim()) === odTokenHeader
 }
 /**
@@ -46,7 +40,7 @@ export function matchProtectedRoute(route: string): string {
           r
             .split('/')
             .map(p => encodeURIComponent(p))
-            .join('/')
+            .join('/'),
         )
       ) {
         authTokenPath = r

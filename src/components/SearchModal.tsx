@@ -92,18 +92,14 @@ function SearchResultItemTemplate({
     <Link
       href={driveItemPath}
       passHref
-      className={`group mx-4 my-4 flex items-center space-x-4 rounded-xl px-4 py-4 transition-all duration-200
-        hover:bg-gray-100 dark:hover:bg-gray-700/50
-        hover:shadow-sm dark:hover:shadow-gray-800
-        ${disabled ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'}
-  `}
+      className={`group mx-4 my-4 flex items-center space-x-4 rounded-xl px-4 py-4 transition-all duration-200 hover:bg-gray-100 hover:shadow-sm dark:hover:bg-gray-700/50 dark:hover:shadow-gray-800 ${disabled ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'} `}
     >
       <FontAwesomeIcon
         icon={driveItem.file ? getFileIcon(driveItem.name) : ['far', 'folder']}
-        className="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors group-hover:text-gray-900 dark:group-hover:text-gray-100"
+        className="h-5 w-5 text-gray-500 transition-colors group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100"
       />
       <div className="min-w-0 flex-1">
-        <div className="text-base font-medium leading-6 text-gray-900 dark:text-gray-100 transition-colors group-hover:text-gray-900 dark:group-hover:text-white">
+        <div className="text-base font-medium leading-6 text-gray-900 transition-colors group-hover:text-gray-900 dark:text-gray-100 dark:group-hover:text-white">
           {driveItem.name}
         </div>
         <div
@@ -121,7 +117,7 @@ function SearchResultItemTemplate({
 function SearchResultItemLoadRemote({ result }: { result: OdSearchResult[number] }) {
   const { data, error }: SWRResponse<OdDriveItem, { status: number; message: any }> = useSWR(
     [`/api/item?id=${result.id}`],
-    fetcher
+    fetcher,
   )
 
   if (error) {
@@ -185,11 +181,7 @@ export default function SearchModal({
 
   return (
     <Transition appear show={searchOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-[200] overflow-y-auto"
-        onClose={closeSearchBox}
-      >
+      <Dialog as="div" className="fixed inset-0 z-[200] overflow-y-auto" onClose={closeSearchBox}>
         <div className="min-h-screen px-4 text-center">
           <TransitionChild
             as={Fragment}
@@ -200,7 +192,7 @@ export default function SearchModal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <DialogBackdrop className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm" />
+            <DialogBackdrop className="fixed inset-0 bg-black/30 backdrop-blur-sm dark:bg-black/50" />
           </TransitionChild>
 
           <TransitionChild
@@ -213,16 +205,13 @@ export default function SearchModal({
             leaveTo="opacity-0 translate-y-4"
           >
             <DialogPanel className="my-8 inline-block w-full max-w-3xl transform space-y-4">
-              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
-                <DialogTitle
-                  as="h3"
-                  className="flex items-center space-x-4 p-4 text-left"
-                >
+              <div className="overflow-hidden rounded-2xl border border-gray-200/50 bg-white/80 shadow-lg backdrop-blur-sm transition-all dark:border-gray-700/50 dark:bg-gray-800/80">
+                <DialogTitle as="h3" className="flex items-center space-x-4 p-4 text-left">
                   <FontAwesomeIcon icon="search" className="h-5 w-5 text-gray-400 dark:text-gray-300" />
                   <input
                     type="text"
                     id="search-box"
-                    className="w-full bg-transparent text-base text-gray-800 dark:text-gray-100 focus:outline-none focus-visible:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                    className="w-full bg-transparent text-base text-gray-800 placeholder:text-gray-400 focus:outline-none focus-visible:outline-none dark:text-gray-100 dark:placeholder:text-gray-500"
                     placeholder={'Search ...'}
                     value={query}
                     onChange={e => setQuery(e.target.value)}
@@ -233,12 +222,9 @@ export default function SearchModal({
                 </DialogTitle>
               </div>
 
-              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
+              <div className="overflow-hidden rounded-2xl border border-gray-200/50 bg-white/80 shadow-lg backdrop-blur-sm transition-all dark:border-gray-700/50 dark:bg-gray-800/80">
                 <div
-                  className="max-h-[60vh] overflow-x-hidden overflow-y-scroll text-left
-                      scrollbar-thin scrollbar-track-transparent
-                      scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
-                      dark:scrollbar-thumb-gray-600 dark:hover:scrollbar-thumb-gray-500"
+                  className="max-h-[60vh] overflow-x-hidden overflow-y-scroll text-left scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 dark:hover:scrollbar-thumb-gray-500"
                   onClick={closeSearchBox}
                 >
                   {results.loading && (

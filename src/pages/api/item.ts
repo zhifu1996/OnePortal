@@ -32,7 +32,9 @@ export default async function handler(req: NextRequest): Promise<Response> {
       })
       return NextResponse.json(data)
     } catch (error: any) {
-      return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), { status: error?.response?.status ?? 500 })
+      return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
+        status: error?.response?.status ?? 500,
+      })
     }
   } else {
     return new Response(JSON.stringify({ error: 'Invalid driveItem ID.' }), { status: 400 })

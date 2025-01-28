@@ -60,14 +60,14 @@ const Navbar = () => {
       <SearchModal searchOpen={searchOpen} setSearchOpen={setSearchOpen} />
 
       <div className="mx-auto flex w-full items-center justify-between space-x-4 px-4 py-1">
-        <Link href="/" passHref className="flex items-center space-x-2 py-2 hover:opacity-80 dark:text-white md:p-2">
+        <Link href="/" passHref className="flex items-center space-x-2 py-2 hover:opacity-80 md:p-2 dark:text-white">
           <Image src={siteConfig.icon} alt="icon" width="25" height="25" priority />
           <span className="hidden font-bold sm:block">{siteConfig.title}</span>
         </Link>
 
         <div className="flex flex-1 items-center space-x-4 text-gray-700 md:flex-initial">
           <button
-            className="flex flex-1 items-center justify-between rounded-lg bg-gray-100 px-2.5 py-1.5 hover:opacity-80 dark:bg-gray-800 dark:text-white md:w-48"
+            className="flex flex-1 items-center justify-between rounded-lg bg-gray-100 px-2.5 py-1.5 hover:opacity-80 md:w-48 dark:bg-gray-800 dark:text-white"
             onClick={openSearchBox}
           >
             <div className="flex items-center space-x-2">
@@ -152,17 +152,12 @@ const Navbar = () => {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      {
-                        'These tokens are used to authenticate yourself into password protected folders, ' +
-                        'clearing them means that you will need to re-enter the passwords again.'
-                      }
+                      {'These tokens are used to authenticate yourself into password protected folders, ' +
+                        'clearing them means that you will need to re-enter the passwords again.'}
                     </p>
                   </div>
 
-                  <div className="mt-4 max-h-32 overflow-y-scroll font-mono text-sm dark:text-gray-100
-                    scrollbar-thin scrollbar-track-transparent
-                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
-                    dark:scrollbar-thumb-gray-700 dark:hover:scrollbar-thumb-gray-600">
+                  <div className="mt-4 max-h-32 overflow-y-scroll font-mono text-sm scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300 dark:text-gray-100 dark:scrollbar-thumb-gray-700 dark:hover:scrollbar-thumb-gray-600">
                     {siteConfig.protectedRoutes.map((r, i) => (
                       <div key={i} className="flex items-center space-x-1">
                         <FontAwesomeIcon icon="key" />
@@ -173,16 +168,13 @@ const Navbar = () => {
 
                   <div className="mt-8 flex items-center justify-end space-x-3">
                     <button
-                      className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-gray-900
-                        transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300
-                        dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                      className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-gray-900 transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                       onClick={() => setIsOpen(false)}
                     >
                       {'Cancel'}
                     </button>
                     <button
-                      className="inline-flex items-center justify-center space-x-2 rounded-lg bg-red-500 px-4 py-2 text-white
-                        transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                      className="inline-flex items-center justify-center space-x-2 rounded-lg bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
                       onClick={() => clearTokens()}
                     >
                       <FontAwesomeIcon icon={['far', 'trash-alt']} />

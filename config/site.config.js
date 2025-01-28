@@ -23,6 +23,10 @@ module.exports = {
   // Do note that this is limited up to 200 items by the upstream OneDrive API.
   maxItems: process.env.MAX_ITEMS || 100,
 
+  // [OPTIONAL] If you have network problems when connecting github.io
+  // you could replace it to somewhere proxies that.
+  PDFPreviewUrlPrefix: process.env.PDF_PREVIEW_URL_PREFIX || 'https://mozilla.github.io/pdf.js/web/viewer.html?file=',
+
   // [OPTIONAL] We use Google Fonts natively for font customisations.
   // You can check and generate the required links and names at https://fonts.google.com.
   // googleFontSans - the sans serif font used in OnePortal.
@@ -45,7 +49,6 @@ module.exports = {
 
   // [OPTIONAL] Use "" here if you want to remove this email address from the nav bar.
   email: process.env.NEXT_PUBLIC_EMAIL || 'mailto:i@example.com',
-
   // [OPTIONAL] This is an array of names and links for setting your social information and links.
   // In the latest update, all brand icons inside font awesome is supported and the icon to render is based on the name
   // you provide. See the documentation for details.

@@ -137,6 +137,7 @@ Yes! Completely free with no backend server what-so-ever.
 - [x] More environment variable settings
 - [x] Support TOTP
 - [ ] File sharing (.share)
+- [x] Hide API clientId and secret
 - [ ] Better UI
 - [ ] Support Cloudflare-proxied downloading / raw / direct downloading
 - [ ] TODOs in files

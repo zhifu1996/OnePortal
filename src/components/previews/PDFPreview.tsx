@@ -3,6 +3,7 @@ import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 import DownloadButtonGroup from '../DownloadBtnGtoup'
 import { DownloadBtnContainer } from './Containers'
+import siteConfig from '../../../config/site.config'
 
 const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {
   const { asPath } = useRouter()
@@ -11,7 +12,9 @@ const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {
   const pdfPath = encodeURIComponent(
     `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`
   )
-  const url = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${pdfPath}`
+
+  const urlPrefix = siteConfig.PDFPreviewUrlPrefix
+  const url = `${urlPrefix}${pdfPath}`
 
   return (
     <div>

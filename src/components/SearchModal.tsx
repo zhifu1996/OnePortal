@@ -7,7 +7,7 @@ import useConstant from 'use-constant'
 
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, DialogPanel, DialogBackdrop, Transition, TransitionChild } from '@headlessui/react'
 
 import type { OdDriveItem, OdSearchResult } from '../types'
 import { LoadingIcon } from './Loading'
@@ -190,7 +190,7 @@ export default function SearchModal({
         onClose={closeSearchBox}
       >
         <div className="min-h-screen px-4 text-center">
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0"
@@ -199,10 +199,10 @@ export default function SearchModal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
-          </Transition.Child>
+            <DialogBackdrop className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
+          </TransitionChild>
 
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-200"
             enterFrom="opacity-0 translate-y-4"
@@ -211,7 +211,7 @@ export default function SearchModal({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-4"
           >
-            <div className="my-8 inline-block w-full max-w-3xl transform space-y-4">
+            <DialogPanel className="my-8 inline-block w-full max-w-3xl transform space-y-4">
               <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
                 <Dialog.Title
                   as="h3"
@@ -260,8 +260,8 @@ export default function SearchModal({
                   )}
                 </div>
               </div>
-            </div>
-          </Transition.Child>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </Transition>

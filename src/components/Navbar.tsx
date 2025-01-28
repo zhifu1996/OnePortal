@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconName } from '@fortawesome/fontawesome-svg-core'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, DialogPanel, DialogBackdrop, Transition, TransitionChild } from '@headlessui/react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHotkeys } from 'react-hotkeys-hook'
 
@@ -117,9 +117,14 @@ const Navbar = () => {
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-[150] overflow-y-auto" open={isOpen} onClose={() => setIsOpen(false)}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-[150] overflow-y-auto"
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
           <div className="flex min-h-screen items-center justify-center px-4 text-center">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-200"
               enterFrom="opacity-0"
@@ -128,10 +133,10 @@ const Navbar = () => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
-            </Transition.Child>
+              <DialogBackdrop className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
+            </TransitionChild>
 
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-200"
               enterFrom="opacity-0 scale-95"
@@ -140,15 +145,17 @@ const Navbar = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="relative z-[160] inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
+              <DialogPanel className="relative z-[160] inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
                 <div className="p-6 text-left">
                   <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-gray-100">
                     {'Clear all tokens?'}
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      {'These tokens are used to authenticate yourself into password protected folders, ' +
-                        'clearing them means that you will need to re-enter the passwords again.'}
+                      {
+                        'These tokens are used to authenticate yourself into password protected folders, ' +
+                        'clearing them means that you will need to re-enter the passwords again.'
+                      }
                     </p>
                   </div>
 
@@ -183,8 +190,8 @@ const Navbar = () => {
                     </button>
                   </div>
                 </div>
-              </div>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>

@@ -1,0 +1,14 @@
+# This file is for local development
+# keep KV Namespace and env vars that **don't** start with NEXT_PUBLIC_ here
+
+name = "oneportal"
+compatibility_date = "2023-10-10"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "OPT_KV"
+
+[vars]
+USER_PRINCIPLE_NAME = "" # replace it
+BASE_DIRECTORY = "/"
+MAX_ITEMS = "100"

@@ -136,9 +136,8 @@ Yes! Completely free with no backend server what-so-ever.
 ## Some TODOs
 - [x] More environment variable settings
 - [x] Support TOTP
-- [ ] Long period of TOTP authentication
+- [ ] Support Cloudflare-proxied downloading / raw / direct downloading
 - [ ] Better UI
-- [ ] Cloudflare-proxied downloading
 - [ ] TODOs in files
 
 <div align="center">

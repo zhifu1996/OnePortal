@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import dynamic from 'next/dynamic'
+import Plyr from 'plyr-react'
 import { useAsync } from 'react-async-hook'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -20,11 +20,6 @@ import Loading from '../Loading'
 import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 
 import 'plyr-react/plyr.css'
-
-// Disabling SSR for video preview
-const Plyr = dynamic(() => import('plyr-react'), {
-  ssr: false
-})
 
 const VideoPlayer: FC<{
   videoName: string

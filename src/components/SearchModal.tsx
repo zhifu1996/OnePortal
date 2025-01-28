@@ -7,7 +7,7 @@ import useConstant from 'use-constant'
 
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Dialog, DialogPanel, DialogBackdrop, Transition, TransitionChild } from '@headlessui/react'
+import { Dialog, DialogPanel, DialogBackdrop, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 
 import type { OdDriveItem, OdSearchResult } from '../types'
 import { LoadingIcon } from './Loading'
@@ -92,17 +92,18 @@ function SearchResultItemTemplate({
     <Link
       href={driveItemPath}
       passHref
-      className={`group mx-2 flex items-center space-x-4 rounded-xl px-4 py-4 transition-all duration-200
-        hover:bg-gray-100 hover:shadow-sm dark:hover:bg-gray-800
+      className={`group mx-4 my-4 flex items-center space-x-4 rounded-xl px-4 py-4 transition-all duration-200
+        hover:bg-gray-100 dark:hover:bg-gray-700/50
+        hover:shadow-sm dark:hover:shadow-gray-800
         ${disabled ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'}
-      `}
+  `}
     >
       <FontAwesomeIcon
         icon={driveItem.file ? getFileIcon(driveItem.name) : ['far', 'folder']}
-        className="h-5 w-5 text-gray-500 transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
+        className="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors group-hover:text-gray-900 dark:group-hover:text-gray-100"
       />
       <div className="min-w-0 flex-1">
-        <div className="text-base font-medium leading-6 transition-colors group-hover:text-gray-900 dark:group-hover:text-white">
+        <div className="text-base font-medium leading-6 text-gray-900 dark:text-gray-100 transition-colors group-hover:text-gray-900 dark:group-hover:text-white">
           {driveItem.name}
         </div>
         <div
@@ -199,7 +200,7 @@ export default function SearchModal({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <DialogBackdrop className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
+            <DialogBackdrop className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm" />
           </TransitionChild>
 
           <TransitionChild
@@ -212,36 +213,38 @@ export default function SearchModal({
             leaveTo="opacity-0 translate-y-4"
           >
             <DialogPanel className="my-8 inline-block w-full max-w-3xl transform space-y-4">
-              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
-                <Dialog.Title
+              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
+                <DialogTitle
                   as="h3"
                   className="flex items-center space-x-4 p-4 text-left"
                 >
-                  <FontAwesomeIcon icon="search" className="h-5 w-5 text-gray-400" />
+                  <FontAwesomeIcon icon="search" className="h-5 w-5 text-gray-400 dark:text-gray-300" />
                   <input
                     type="text"
                     id="search-box"
-                    className="w-full bg-transparent text-base focus:outline-none focus-visible:outline-none"
+                    className="w-full bg-transparent text-base text-gray-800 dark:text-gray-100 focus:outline-none focus-visible:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
                     placeholder={'Search ...'}
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                   />
-                  <div className="rounded-md bg-gray-200/50 px-2 py-1 text-xs font-medium dark:bg-gray-700/50">ESC</div>
-                </Dialog.Title>
+                  <div className="rounded-md bg-gray-200/50 px-2 py-1 text-xs font-medium dark:bg-gray-600/50 dark:text-gray-300">
+                    ESC
+                  </div>
+                </DialogTitle>
               </div>
 
-              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
+              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
                 <div
                   className="max-h-[60vh] overflow-x-hidden overflow-y-scroll text-left
-                    scrollbar-thin scrollbar-track-transparent
-                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
-                    dark:scrollbar-thumb-gray-700 dark:hover:scrollbar-thumb-gray-600"
+                      scrollbar-thin scrollbar-track-transparent
+                      scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
+                      dark:scrollbar-thumb-gray-600 dark:hover:scrollbar-thumb-gray-500"
                   onClick={closeSearchBox}
                 >
                   {results.loading && (
                     <div className="px-6 py-8 text-center text-sm font-medium">
-                      <LoadingIcon className="svg-inline--fa mr-2 inline-block h-4 w-4 animate-spin" />
-                      <span>{'Loading ...'}</span>
+                      <LoadingIcon className="svg-inline--fa mr-2 inline-block h-4 w-4 animate-spin text-gray-600 dark:text-gray-300" />
+                      <span className="text-gray-600 dark:text-gray-300">{'Loading ...'}</span>
                     </div>
                   )}
                   {results.error && (
@@ -252,7 +255,9 @@ export default function SearchModal({
                   {results.result && (
                     <>
                       {results.result.length === 0 ? (
-                        <div className="px-6 py-8 text-center text-sm font-medium">{'Nothing here.'}</div>
+                        <div className="px-6 py-8 text-center text-sm font-medium text-gray-600 dark:text-gray-300">
+                          {'Nothing here.'}
+                        </div>
                       ) : (
                         results.result.map(result => <SearchResultItem key={result.id} result={result} />)
                       )}

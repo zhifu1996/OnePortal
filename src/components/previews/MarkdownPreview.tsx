@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrowNight } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 
@@ -26,10 +27,10 @@ const MarkdownPreview: FC<{
   const { response: content, error, validating } = useFileContent(`/api/raw?path=${parentPath}/${file.name}`, path)
 
   // Check if the image is relative path instead of a absolute url
-  const isUrlAbsolute = (url: string | string[]) => url.indexOf('://') > 0 || url.indexOf('//') === 0
-  // Custom renderer:
-  const customRenderer = {
-    // img: to render images in markdown with relative file paths
+  const isUrlAbsolute = (url: string | string[]) => url.indexOf('://') > 0 || url.indexOf('//') === 0;
+
+  // Custom components for rendering elements
+  const components = {
     img: ({
       alt,
       src,
@@ -57,8 +58,7 @@ const MarkdownPreview: FC<{
         />
       )
     },
-    // code: to render code blocks with react-syntax-highlighter
-    code({
+    code: ({
       className,
       children,
       inline,
@@ -67,7 +67,7 @@ const MarkdownPreview: FC<{
       className?: string | undefined
       children: ReactNode
       inline?: boolean
-    }) {
+    }) => {
       if (inline) {
         return (
           <code className={className} {...props}>
@@ -78,7 +78,7 @@ const MarkdownPreview: FC<{
 
       const match = /language-(\w+)/.exec(className || '')
       return (
-        <SyntaxHighlighter language={match ? match[1] : 'language-text'} style={tomorrowNight} PreTag="div" {...props}>
+        <SyntaxHighlighter language={match ? match[1] : 'text'} style={tomorrowNight} PreTag="div" {...props}>
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
@@ -111,16 +111,14 @@ const MarkdownPreview: FC<{
     <div>
       <PreviewContainer>
         <div className="markdown-body">
-          {/* Using rehypeRaw to render HTML inside Markdown is potentially dangerous, use under safe environments. (#18) */}
           <ReactMarkdown
-            // @ts-ignore
             remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex, rehypeRaw, rehypeSanitize]} // add rehypeSanitize to improve security
             // The type error is introduced by caniuse-lite upgrade.
             // Since type errors occur often in remark toolchain and the use is so common,
-            // ignoring it shoudld be safe enough.
+            // ignoring it should be safe enough.
             // @ts-ignore
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
-            components={customRenderer}
+            components={components}
           >
             {content}
           </ReactMarkdown>

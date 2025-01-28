@@ -84,7 +84,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
                 priority
               />
             </div>
-            <h3 className="mb-4 text-center text-xl font-medium">{'Welcome to your new onedrive-cf-index-ng 🎉'}</h3>
+            <h3 className="mb-4 text-center text-xl font-medium">{'Welcome to your new OnePortal 🎉'}</h3>
 
             <h3 className="mb-2 mt-4 text-lg font-medium">{'Step 3/3: Get access and refresh tokens'}</h3>
             {error ? (
@@ -156,7 +156,7 @@ export default function OAuthStep3({ accessToken, expiryTime, refreshToken, erro
                   {'Final step, click the button below to store these tokens persistently before they expire ' +
                     `after ${Math.floor(expiryTimeLeft / 60)} minutes ${expiryTimeLeft - Math.floor(expiryTimeLeft / 60) * 60
                     } seconds. ` +
-                    "Don't worry, after storing them, onedrive-cf-index-ng will take care of token refreshes and updates after your site goes live."}
+                    "Don't worry, after storing them, OnePortal will take care of token refreshes and updates after your site goes live."}
                 </p>
 
                 <div className="mb-2 mt-6 text-right">

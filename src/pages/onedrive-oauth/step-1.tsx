@@ -25,7 +25,7 @@ export default function OAuthStep1() {
             <div className="mx-auto w-52">
               <Image src="/images/fabulous-fireworks.png" width={912} height={912} alt="fabulous fireworks" priority />
             </div>
-            <h3 className="mb-4 text-center text-xl font-medium">{'Welcome to your new onedrive-cf-index-ng 🎉'}</h3>
+            <h3 className="mb-4 text-center text-xl font-medium">{'Welcome to your new OnePortal 🎉'}</h3>
 
             <h3 className="mb-2 mt-4 text-lg font-med ium">{'Step 1/3: Preparations'}</h3>
 
@@ -34,7 +34,7 @@ export default function OAuthStep1() {
               <code className="font-mono text-sm underline decoration-pink-600 decoration-wavy">access_token</code> or{' '}
               <code className="font-mono text-sm underline decoration-green-600 decoration-wavy">refresh_token</code> is
               present on this deployed instance. Check the following configurations before proceeding with authorising
-              onedrive-cf-index-ng with your own Microsoft account.
+              OnePortal with your own Microsoft account.
             </p>
 
             <div className="my-4 overflow-hidden">

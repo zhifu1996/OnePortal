@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="./public/header.png" alt="onedrive-list" />
-  <h2>onedrive-list</h2>
+  <img src="./public/header.png" alt="OnePortal" />
+  <h2>OnePortal</h2>
   <p><em>OneDrive public directory listing forked from <a href="https://github.com/lyc8503/onedrive-cf-index-ng">onedrive-cf-index-ng</a>, powered by Cloudflare and Next.js</em></p>
 
   <img src="https://img.shields.io/badge/OneDrive-2C68C3?style=flat&logo=microsoft-onedrive&logoColor=white" alt="OneDrive" />
@@ -33,7 +33,7 @@ Showcase, share, preview, and download files inside *your* OneDrive with onedriv
 
 ## Demo
 
-Live demo at [here](https://odl-demo.eflx.top).
+Live demo at [here](https://opt-demo.eflx.top).
 
 ![demo](./public/demo.png)
 

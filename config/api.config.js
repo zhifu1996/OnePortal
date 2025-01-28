@@ -8,10 +8,16 @@
  *   In which case you would need to change directLinkRegex.
  */
 module.exports = {
+  // A disguise to obfuscate required tokens (including but not limited to client secret, access tokens, and refresh tokens)
+  // If this is changed, obfuscatedClientSecret should also be changed.
+  // Use https://it-tools.tech/encryption to decrypt obfuscatedClientSecret with secret key 'OnePortal',
+  // and then use your own secret key to encrypt it again.
+  aesKey: process.env.AES_SECRET_KEY || 'OnePortal',
+
   // The clientId and clientSecret are used to authenticate the user with Microsoft Graph API using OAuth. You would
   // not need to change anything here if you can authenticate with your personal Microsoft account with OneDrive International.
-  clientId: 'f23f9918-14a5-46f1-9f74-13e57273b8f3',
-  obfuscatedClientSecret: 'U2FsdGVkX1/hHUr0qvtP2dAJuY9MqdXfryBEQW3FkN4AI6MGmoxTOxEANDejnriD/4nJXcg4Lv4sSXI0O5Lf4w==',
+  clientId: '417cc4ee-9ecb-492b-b044-84b668ab811b',
+  obfuscatedClientSecret: 'U2FsdGVkX1+r/6m12YyFICHltfXc8L7fdpnP9BDyi9tKMb9uGkCfzvpGsgrmaNQreleblUS5oJ2oE2KXg0HIJw==',
 
   // The redirectUri is the URL that the user will be redirected to after they have authenticated with Microsoft Graph API.
   // Likewise, you would not need to change redirectUri if you are using your personal Microsoft account with OneDrive International.

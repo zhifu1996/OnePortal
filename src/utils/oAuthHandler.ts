@@ -6,7 +6,7 @@ import apiConfig from '../../config/api.config'
 // Just a disguise to obfuscate required tokens (including but not limited to client secret,
 // access tokens, and refresh tokens), used along with the following two functions
 // Leave this for compatibility with the old version
-const AES_SECRET_KEY = 'onedrive-vercel-index'
+const AES_SECRET_KEY = apiConfig.aesKey
 
 export function revealObfuscatedToken(obfuscated: string): string {
   // Decrypt SHA256 obfuscated token

@@ -4,10 +4,10 @@
  */
 module.exports = {
   // This is what we use to identify who you are when you are initialising the website for the first time.
-  // Make sure this is exactly the same as the email address you use to sign into your Microsoft account.
+  // Make sure this is exactly the same as the email address you use to sign in to your Microsoft account.
   // You can also put this in your worker's environment variable if you worry about
   // your email being exposed in public.
-  userPrincipalName: process.env.USER_PRINCIPLE_NAME || 'me@lyc8503.net',
+  userPrincipalName: process.env.USER_PRINCIPLE_NAME || 'i@example.com',
 
   // [OPTIONAL] This is the website icon to the left of the title inside the navigation bar. It should be placed under the
   // /public directory of your GitHub project (not your OneDrive folder!), and referenced here by its relative path to /public.
@@ -16,7 +16,7 @@ module.exports = {
   // The name of your website. Present alongside your icon.
   title: process.env.NEXT_PUBLIC_TITLE || "OneDrive List",
 
-  // The folder that you are to share publicly with onedrive-cf-index-ng. Use '/' if you want to share your root folder.
+  // The folder that you are to share publicly with OnePortal. Use '/' if you want to share your root folder.
   baseDirectory: process.env.BASE_DIRECTORY || '/',
 
   // [OPTIONAL] This represents the maximum number of items that one directory lists, pagination supported.
@@ -25,9 +25,9 @@ module.exports = {
 
   // [OPTIONAL] We use Google Fonts natively for font customisations.
   // You can check and generate the required links and names at https://fonts.google.com.
-  // googleFontSans - the sans serif font used in onedrive-cf-index-ng.
+  // googleFontSans - the sans serif font used in OnePortal.
   googleFontSans: 'Inter',
-  // googleFontMono - the monospace font used in onedrive-cf-index-ng.
+  // googleFontMono - the monospace font used in OnePortal.
   googleFontMono: 'Fira Mono',
   // googleFontLinks -  an array of links for referencing the google font assets.
   googleFontLinks: ['https://fonts.googleapis.com/css2?family=Fira+Mono&family=Inter:wght@400;500;700&display=swap'],
@@ -35,7 +35,7 @@ module.exports = {
   // [OPTIONAL] The footer component of your website. You can write HTML here, but you need to escape double
   // quotes - changing " to \". You can write anything here, and if you like badges, generate some with https://shields.io
   footer: process.env.NEXT_PUBLIC_FOOTER ||
-    'Powered by <a href="https://github.com/EFLKumo/onedrive-list" target="_blank" rel="noopener noreferrer">onedrive-list</a>. Made with ❤ by spencerwooo, lyc8503, EFL and other contributors.',
+    'Powered by <a href="https://github.com/EFLKumo/OnePortal" target="_blank" rel="noopener noreferrer">OnePortal</a>. Made with ❤ by spencerwooo, lyc8503, EFL and other contributors.',
 
   // [OPTIONAL] This is where you specify the folders that are password protected. It is an array of paths pointing to all
   // the directories in which you have .password set. Check the documentation for details.

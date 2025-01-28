@@ -1,10 +1,10 @@
 import { KVNamespace } from '@cloudflare/workers-types'
 
 export async function getOdAuthTokens(): Promise<{ accessToken: unknown; refreshToken: unknown }> {
-  const { ODL_KV } = process.env as unknown as { ODL_KV: KVNamespace }
+  const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
 
-  const accessToken = await ODL_KV.get('access_token')
-  const refreshToken = await ODL_KV.get('refresh_token')
+  const accessToken = await OPT_KV.get('access_token')
+  const refreshToken = await OPT_KV.get('refresh_token')
 
   return {
     accessToken,
@@ -21,8 +21,8 @@ export async function storeOdAuthTokens({
   accessTokenExpiry: number
   refreshToken: string
 }): Promise<void> {
-  const { ODL_KV } = process.env as unknown as { ODL_KV: KVNamespace }
+  const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
 
-  await ODL_KV.put('access_token', accessToken, { expirationTtl: accessTokenExpiry })
-  await ODL_KV.put('refresh_token', refreshToken)
+  await OPT_KV.put('access_token', accessToken, { expirationTtl: accessTokenExpiry })
+  await OPT_KV.put('refresh_token', refreshToken)
 }

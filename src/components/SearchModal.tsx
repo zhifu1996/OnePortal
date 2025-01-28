@@ -92,15 +92,21 @@ function SearchResultItemTemplate({
     <Link
       href={driveItemPath}
       passHref
-      className={`flex items-center space-x-4 border-b border-gray-400/30 px-4 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-850 ${
-        disabled ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'
-      }`}
+      className={`group mx-2 flex items-center space-x-4 rounded-xl px-4 py-4 transition-all duration-200
+        hover:bg-gray-100 hover:shadow-sm dark:hover:bg-gray-800
+        ${disabled ? 'pointer-events-none cursor-not-allowed' : 'cursor-pointer'}
+      `}
     >
-      <FontAwesomeIcon icon={driveItem.file ? getFileIcon(driveItem.name) : ['far', 'folder']} />
-      <div>
-        <div className="text-sm font-medium leading-8">{driveItem.name}</div>
+      <FontAwesomeIcon
+        icon={driveItem.file ? getFileIcon(driveItem.name) : ['far', 'folder']}
+        className="h-5 w-5 text-gray-500 transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="text-base font-medium leading-6 transition-colors group-hover:text-gray-900 dark:group-hover:text-white">
+          {driveItem.name}
+        </div>
         <div
-          className={`overflow-hidden truncate font-mono text-xs opacity-60 ${
+          className={`overflow-hidden truncate font-mono text-xs text-gray-500 dark:text-gray-400 ${
             itemDescription === 'Loading ...' && 'animate-pulse'
           }`}
         >
@@ -178,67 +184,81 @@ export default function SearchModal({
 
   return (
     <Transition appear show={searchOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-[200] overflow-y-auto" onClose={closeSearchBox}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-[200] overflow-y-auto"
+        onClose={closeSearchBox}
+      >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-100"
+            enter="ease-out duration-200"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="ease-in duration-100"
+            leave="ease-in duration-200"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-white/80 dark:bg-gray-800/80" />
+            <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
           </Transition.Child>
 
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-100"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-100"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            enter="ease-out duration-200"
+            enterFrom="opacity-0 translate-y-4"
+            enterTo="opacity-100 translate-y-0"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-4"
           >
-            <div className="my-12 inline-block w-full max-w-3xl transform overflow-hidden rounded border border-gray-400/30 text-left shadow-xl transition-all">
-              <Dialog.Title
-                as="h3"
-                className="flex items-center space-x-4 border-b border-gray-400/30 bg-gray-50 p-4 dark:bg-gray-800 dark:text-white"
-              >
-                <FontAwesomeIcon icon="search" className="h-4 w-4" />
-                <input
-                  type="text"
-                  id="search-box"
-                  className="w-full bg-transparent focus:outline-none focus-visible:outline-none"
-                  placeholder={'Search ...'}
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                />
-                <div className="rounded-lg bg-gray-200 px-2 py-1 text-xs font-medium dark:bg-gray-700">ESC</div>
-              </Dialog.Title>
-              <div
-                className="max-h-[80vh] overflow-x-hidden overflow-y-scroll bg-white dark:bg-gray-900 dark:text-white"
-                onClick={closeSearchBox}
-              >
-                {results.loading && (
-                  <div className="px-4 py-12 text-center text-sm font-medium">
-                    <LoadingIcon className="svg-inline--fa mr-2 inline-block h-4 w-4 animate-spin" />
-                    <span>{'Loading ...'}</span>
-                  </div>
-                )}
-                {results.error && (
-                  <div className="px-4 py-12 text-center text-sm font-medium">{`Error: ${results.error.message}`}</div>
-                )}
-                {results.result && (
-                  <>
-                    {results.result.length === 0 ? (
-                      <div className="px-4 py-12 text-center text-sm font-medium">{'Nothing here.'}</div>
-                    ) : (
-                      results.result.map(result => <SearchResultItem key={result.id} result={result} />)
-                    )}
-                  </>
-                )}
+            <div className="my-8 inline-block w-full max-w-3xl transform space-y-4">
+              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
+                <Dialog.Title
+                  as="h3"
+                  className="flex items-center space-x-4 p-4 text-left"
+                >
+                  <FontAwesomeIcon icon="search" className="h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    id="search-box"
+                    className="w-full bg-transparent text-base focus:outline-none focus-visible:outline-none"
+                    placeholder={'Search ...'}
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                  />
+                  <div className="rounded-md bg-gray-200/50 px-2 py-1 text-xs font-medium dark:bg-gray-700/50">ESC</div>
+                </Dialog.Title>
+              </div>
+
+              <div className="overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
+                <div
+                  className="max-h-[60vh] overflow-x-hidden overflow-y-scroll text-left
+                    scrollbar-thin scrollbar-track-transparent
+                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
+                    dark:scrollbar-thumb-gray-700 dark:hover:scrollbar-thumb-gray-600"
+                  onClick={closeSearchBox}
+                >
+                  {results.loading && (
+                    <div className="px-6 py-8 text-center text-sm font-medium">
+                      <LoadingIcon className="svg-inline--fa mr-2 inline-block h-4 w-4 animate-spin" />
+                      <span>{'Loading ...'}</span>
+                    </div>
+                  )}
+                  {results.error && (
+                    <div className="px-6 py-8 text-center text-sm font-medium text-red-500">
+                      {`Error: ${results.error.message}`}
+                    </div>
+                  )}
+                  {results.result && (
+                    <>
+                      {results.result.length === 0 ? (
+                        <div className="px-6 py-8 text-center text-sm font-medium">{'Nothing here.'}</div>
+                      ) : (
+                        results.result.map(result => <SearchResultItem key={result.id} result={result} />)
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </Transition.Child>

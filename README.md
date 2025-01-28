@@ -136,12 +136,13 @@ Yes! Completely free with no backend server what-so-ever.
 ## Some TODOs
 - [x] More environment variable settings
 - [x] Support TOTP
-- [ ] Support Cloudflare-proxied downloading / raw / direct downloading
+- [ ] File sharing (.share)
 - [ ] Better UI
+- [ ] Support Cloudflare-proxied downloading / raw / direct downloading
 - [ ] TODOs in files
 
 <div align="center">
-  <img src="./public/footer.png" />
+  <img src="./public/footer.png"  alt="footer"/>
   <em>made with ❤️ by <a href="https://eflx.top">EFL</a> & <a href="https://lyc8503.net">lyc8503</a> & <a href="https://spencerwoo.com">spencer woo</a> and contributors</em>
 </div>
 

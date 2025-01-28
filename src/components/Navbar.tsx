@@ -54,7 +54,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="sticky top-0 z-[100] border-b border-gray-900/10 bg-white bg-opacity-80 backdrop-blur-md dark:border-gray-500/30 dark:bg-gray-900">
+    <div className="sticky top-0 z-[100] border-b border-gray-900/10 bg-white/80 backdrop-blur-sm dark:border-gray-500/30 dark:bg-gray-900/80">
       <Toaster />
 
       <SearchModal searchOpen={searchOpen} setSearchOpen={setSearchOpen} />
@@ -117,68 +117,71 @@ const Navbar = () => {
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" open={isOpen} onClose={() => setIsOpen(false)}>
-          <div className="min-h-screen px-4 text-center">
+        <Dialog as="div" className="fixed inset-0 z-[150] overflow-y-auto" open={isOpen} onClose={() => setIsOpen(false)}>
+          <div className="flex min-h-screen items-center justify-center px-4 text-center">
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-100"
+              enter="ease-out duration-200"
               enterFrom="opacity-0"
               enterTo="opacity-100"
-              leave="ease-in duration-50"
+              leave="ease-in duration-200"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              {/* TODO: Dialog.Overlay is removed from newer version of headlessui */}
-              <Dialog.Overlay className="fixed inset-0 bg-gray-50 dark:bg-gray-800" />
+              <Dialog.Overlay className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
             </Transition.Child>
 
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span className="inline-block h-screen align-middle" aria-hidden="true">
-              &#8203;
-            </span>
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-100"
+              enter="ease-out duration-200"
               enterFrom="opacity-0 scale-95"
               enterTo="opacity-100 scale-100"
-              leave="ease-in duration-50"
+              leave="ease-in duration-200"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle transition-all dark:bg-gray-900">
-                <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                  {'Clear all tokens?'}
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    {'These tokens are used to authenticate yourself into password protected folders, ' +
-                      'clearing them means that you will need to re-enter the passwords again.'}
-                  </p>
-                </div>
+              <div className="relative z-[160] inline-block w-full max-w-md overflow-hidden rounded-2xl bg-white/80 shadow-lg transition-all dark:bg-gray-900/80">
+                <div className="p-6 text-left">
+                  <Dialog.Title className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                    {'Clear all tokens?'}
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      {'These tokens are used to authenticate yourself into password protected folders, ' +
+                        'clearing them means that you will need to re-enter the passwords again.'}
+                    </p>
+                  </div>
 
-                <div className="mt-4 max-h-32 overflow-y-scroll font-mono text-sm dark:text-gray-100">
-                  {siteConfig.protectedRoutes.map((r, i) => (
-                    <div key={i} className="flex items-center space-x-1">
-                      <FontAwesomeIcon icon="key" />
-                      <span className="truncate">{r}</span>
-                    </div>
-                  ))}
-                </div>
+                  <div className="mt-4 max-h-32 overflow-y-scroll font-mono text-sm dark:text-gray-100
+                    scrollbar-thin scrollbar-track-transparent
+                    scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300
+                    dark:scrollbar-thumb-gray-700 dark:hover:scrollbar-thumb-gray-600">
+                    {siteConfig.protectedRoutes.map((r, i) => (
+                      <div key={i} className="flex items-center space-x-1">
+                        <FontAwesomeIcon icon="key" />
+                        <span className="truncate">{r}</span>
+                      </div>
+                    ))}
+                  </div>
 
-                <div className="mt-8 flex items-center justify-end">
-                  <button
-                    className="mr-3 inline-flex items-center justify-center space-x-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {'Cancel'}
-                  </button>
-                  <button
-                    className="inline-flex items-center justify-center space-x-2 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-400 focus:outline-none focus:ring focus:ring-red-300"
-                    onClick={() => clearTokens()}
-                  >
-                    <FontAwesomeIcon icon={['far', 'trash-alt']} />
-                    <span>{'Clear all'}</span>
-                  </button>
+                  <div className="mt-8 flex items-center justify-end space-x-3">
+                    <button
+                      className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-gray-900
+                        transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300
+                        dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {'Cancel'}
+                    </button>
+                    <button
+                      className="inline-flex items-center justify-center space-x-2 rounded-lg bg-red-500 px-4 py-2 text-white
+                        transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                      onClick={() => clearTokens()}
+                    >
+                      <FontAwesomeIcon icon={['far', 'trash-alt']} />
+                      <span>{'Clear all'}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </Transition.Child>

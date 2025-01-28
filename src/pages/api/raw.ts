@@ -65,10 +65,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
         })
         headers['Cache-Control'] = cacheControlHeader
         // Send data stream as response
-        // TODO
-        // res.writeHead(200, headers as AxiosResponseHeaders)
-        // stream.pipe(res)
-        return new Response()
+        return new Response(stream, { status: 200, headers: headers })
       } else {
         headers['Location'] = data['@microsoft.graph.downloadUrl'] as string
         return new Response(null, { status: 302, headers: headers })

@@ -1,6 +1,7 @@
 import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
 
+import siteConfig from '../../../config/site.config'
 import { driveApi, cacheControlHeader } from '../../../config/api.config'
 import { encodePath, getAccessToken, checkAuthRoute } from '.'
 import { NextRequest } from 'next/server'
@@ -58,8 +59,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
     })
 
     if ('@microsoft.graph.downloadUrl' in data) {
-      // Only proxy raw file content response for files up to 4MB
-      if (proxy && 'size' in data && data['size'] < 4194304) {
+      if (proxy && siteConfig.allowProxy) {
         const { headers, data: stream } = await axios.get(data['@microsoft.graph.downloadUrl'] as string, {
           responseType: 'stream',
         })

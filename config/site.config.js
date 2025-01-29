@@ -23,6 +23,10 @@ module.exports = {
   // Do note that this is limited up to 200 items by the upstream OneDrive API.
   maxItems: process.env.MAX_ITEMS || 100,
 
+  // [USE AT YOUR OWN RISK] Allow to use Cloudflare to proxy downloading
+  // which might be against TOS of Cloudflare
+  allowProxy: process.env.NEXT_PUBLIC_ALLOW_PROXY || false,
+
   // [OPTIONAL] If you have network problems when connecting github.io
   // you could replace it to somewhere proxies that.
   PDFPreviewUrlPrefix: process.env.PDF_PREVIEW_URL_PREFIX || 'https://mozilla.github.io/pdf.js/web/viewer.html?file=',

@@ -7,10 +7,12 @@ import {
   Description,
   Transition,
   TransitionChild,
+  Switch,
 } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useClipboard } from 'use-clipboard-copy'
 
+import siteConfig from '../../config/site.config'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import { getStoredToken } from '../utils/protectedRouteHandler'
 import { getReadablePath } from '../utils/getReadablePath'
@@ -55,6 +57,7 @@ export default function CustomEmbedLinkMenu({
   const readablePath = getReadablePath(path)
   const filename = readablePath.substring(readablePath.lastIndexOf('/') + 1)
   const [name, setName] = useState(filename)
+  const [proxy, setProxy] = useState(false)
 
   return (
     <Transition appear show={menuOpen} as={Fragment}>
@@ -105,7 +108,30 @@ export default function CustomEmbedLinkMenu({
               </Description>
 
               <div className="mt-6">
-                <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                <div className="mb-6 flex items-center justify-between">
+                  <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                    {'Proxied'}
+                  </h4>
+
+                  <Switch.Group as="div" className="flex items-center">
+                    <Switch
+                      checked={proxy}
+                      onChange={setProxy}
+                      disabled={!siteConfig.allowProxy}
+                      className={`${
+                        proxy ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
+                      } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2`}
+                    >
+                      <span
+                        className={`${
+                          proxy ? 'translate-x-6' : 'translate-x-1'
+                        } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
+                      />
+                    </Switch>
+                  </Switch.Group>
+                </div>
+
+                <h4 className="mb-2 text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">
                   {'Filename'}
                 </h4>
                 <input
@@ -117,21 +143,21 @@ export default function CustomEmbedLinkMenu({
 
                 <LinkContainer
                   title={'Default'}
-                  value={`${getBaseUrl()}/api/raw?path=${readablePath}${hashedToken ? `&odpt=${hashedToken}` : ''}`}
+                  value={`${getBaseUrl()}/api/raw?path=${readablePath}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'URL encoded'}
-                  value={`${getBaseUrl()}/api/raw?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}`}
+                  value={`${getBaseUrl()}/api/raw?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'Customised'}
                   value={`${getBaseUrl()}/api/name/${name}?path=${readablePath}${
                     hashedToken ? `&odpt=${hashedToken}` : ''
-                  }`}
+                  }${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'Customised and encoded'}
-                  value={`${getBaseUrl()}/api/name/${name}?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}`}
+                  value={`${getBaseUrl()}/api/name/${name}?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
               </div>
             </DialogPanel>

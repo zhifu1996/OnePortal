@@ -20,6 +20,7 @@ import Loading from '../Loading'
 import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 
 import 'plyr-react/plyr.css'
+import siteConfig from '../../../config/site.config'
 
 const VideoPlayer: FC<{
   videoName: string
@@ -132,6 +133,16 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             btnIcon="file-download"
           />
           <DownloadButton
+            onClickCallback={() =>
+              window.open(`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`)
+            }
+            btnColor="yellow"
+            btnText={'Proxy Download'}
+            btnIcon="download"
+            btnTitle={'Download the file via Cloudflare network'}
+            disabled={!siteConfig.allowProxy}
+          />
+          <DownloadButton
             onClickCallback={() => {
               clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)
               toast.success('Copied direct link to clipboard.')
@@ -139,6 +150,18 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             btnColor="pink"
             btnText={'Copy direct link'}
             btnIcon="copy"
+          />
+          <DownloadButton
+            onClickCallback={() => {
+              clipboard.copy(
+                `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
+              )
+              toast.success('Copied proxied link to clipboard.')
+            }}
+            btnColor="green"
+            btnText={'Copy proxied link'}
+            btnIcon="copy"
+            btnTitle={'Copy the permalink to the file to the clipboard'}
           />
           <DownloadButton
             onClickCallback={() => setMenuOpen(true)}

@@ -7,6 +7,7 @@ import { useClipboard } from 'use-clipboard-copy'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
+import siteConfig from '../../config/site.config'
 import { getBaseUrl } from '../utils/getBaseUrl'
 import { getStoredToken } from '../utils/protectedRouteHandler'
 import CustomEmbedLinkMenu from './CustomEmbedLinkMenu'
@@ -38,6 +39,7 @@ export const DownloadButton = ({
   btnIcon,
   btnImage,
   btnTitle,
+  disabled,
 }: {
   onClickCallback: MouseEventHandler<HTMLButtonElement>
   btnColor?: string
@@ -45,14 +47,16 @@ export const DownloadButton = ({
   btnIcon?: IconProp
   btnImage?: string
   btnTitle?: string
+  disabled?: boolean
 }) => {
   return (
     <button
-      className={`flex items-center space-x-2 rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100/10 focus:z-10 focus:ring-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-900 ${btnStyleMap(
-        btnColor,
-      )}`}
+      className={`flex items-center space-x-2 rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100/10 focus:z-10 focus:ring-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-900 ${
+        disabled ? 'border-gray-300 dark:border-gray-500' : btnStyleMap(btnColor)
+      }`}
       title={btnTitle}
       onClick={onClickCallback}
+      disabled={disabled}
     >
       {btnIcon && <FontAwesomeIcon icon={btnIcon} />}
       {btnImage && <Image src={btnImage} alt={btnImage} width={20} height={20} priority />}
@@ -80,12 +84,34 @@ const DownloadButtonGroup = () => {
           btnTitle={'Download the file directly through OneDrive'}
         />
         <DownloadButton
+          onClickCallback={() =>
+            window.open(`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`)
+          }
+          btnColor="yellow"
+          btnText={'Proxy Download'}
+          btnIcon="download"
+          btnTitle={'Download the file via Cloudflare network'}
+          disabled={!siteConfig.allowProxy}
+        />
+        <DownloadButton
           onClickCallback={() => {
             clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)
             toast.success('Copied direct link to clipboard.')
           }}
           btnColor="pink"
           btnText={'Copy direct link'}
+          btnIcon="copy"
+          btnTitle={'Copy the permalink to the file to the clipboard'}
+        />
+        <DownloadButton
+          onClickCallback={() => {
+            clipboard.copy(
+              `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
+            )
+            toast.success('Copied proxied link to clipboard.')
+          }}
+          btnColor="green"
+          btnText={'Copy proxied link'}
           btnIcon="copy"
           btnTitle={'Copy the permalink to the file to the clipboard'}
         />

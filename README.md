@@ -10,14 +10,20 @@
 </div>
 
 ## What's different
---TODO--
+- More environment variables
+- Improve security by:
+  - allowing to use TOTP instead of Password
+  - set custom AES secret key and client secret in environment variables
+- Better user interface
+- Edge function caching for faster load times
+- Updated dependencies
 
 *Special thanks to the original author of od-cf-index-ng [@lyc8503](https://github.com/lyc8503) and author of onedrive-vercel-index [@spencerwooo](https://github.com/spencerwooo) and all contributors.*
 
 
 ## TL;DR
 
-Showcase, share, preview, and download files inside *your* OneDrive with onedrive-cf-index-ng -
+Showcase, share, preview, and download files inside *your* OneDrive with OnePortal
 
 - Completely free to host 💸
 - Superfast ⚡ and responsive 💦
@@ -27,7 +33,42 @@ Showcase, share, preview, and download files inside *your* OneDrive with onedriv
 🍌 More importantly, we are pretty (●'◡'●)
 
 ## 🚀 Quick start
---TODO--
+### Fork Repository and Set Up Pages
+1. **Fork the Repository**: Click [here](https://github.com/EFLKumo/OnePortal/fork) to fork the repository.
+2. **Cloudflare Setup**: Navigate to [dash.cloudflare.com](https://dash.cloudflare.com/) -> `Compute (Workers)` -> `Workers and Pages`.
+3. **Create a Project**: Click `Create`, select `Pages`, then choose `Connect to Git`. Follow the instructions to connect your forked `OnePortal` repository.
+4. **Deployment Configuration**: Click `Begin Setup`, set the `Framework Preset` to `Next.js`, then click `Save and Deploy`.
+
+### Configure the Project
+The initial deployment may fail—this is expected. Follow these steps to configure the project:
+
+1. **Add Variables and Secrets**:
+   Go to your Pages project's settings -> `Variables and Secrets`, then add the following variables:
+   - `USER_PRINCIPLE_NAME`: The OneDrive account email (case-sensitive).
+   - `NEXT_PUBLIC_ICON` (optional): Custom icon path (use `.png` format).
+   - `NEXT_PUBLIC_TITLE` (optional): Custom site title (useful for SEO).
+   - `BASE_DIRECTORY`: The folder to be shared publicly, default is `/`.
+   - `MAX_ITEMS` (optional): Maximum number of items displayed per directory.
+   - `PDF_PREVIEW_URL_PREFIX` (optional): See `site.config.js` for details.
+   - `NEXT_PUBLIC_FOOTER` (optional): Custom footer text.
+   - `NEXT_PUBLIC_ROUTES` (optional): Define protected directories using passwords or TOTP. List directories separated by commas, excluding the `BASE_DIRECTORY`. For example, if `BASE_DIRECTORY` is `/Abc` and you want to protect `/Abc/Def`, use `/Def` here.
+   - `NEXT_PUBLIC_EMAIL`: Your email in the format `mailto:i@example.com`. Leave empty if unused.
+   - `NEXT_PUBLIC_LINKS` (optional): Links to show in the navigation bar (in JSON format). Refer to `site.config.js` for examples.
+
+2. **Set Up KV Storage**:
+   - Go to the Cloudflare Dashboard -> `Storage & Databases` -> `KV`, and create a KV namespace. Take note of its name.
+   - Return to the Pages project's settings -> `Bindings`, and add a new binding:
+     - `Variable name`: `OPT_KV`
+     - `Namespace`: Select the KV namespace you just created.
+
+3. **Adjust Runtime Settings**:
+   - Go to the Pages project's settings -> `Runtime`.
+   - Edit `Compatibility Flags` and add `nodejs_compat`.
+
+4. **Retry Deployment**:
+   - Navigate to the `Deployments` tab.
+   - Click the three-dot menu on the failed deployment and select `Retry Deployment`.
+
 
 *If you happen to like this project, please give it a star!* :3
 
@@ -139,7 +180,7 @@ Yes! Completely free with no backend server what-so-ever.
 - [x] Hide API clientId and secret
 - [x] Better UI
 - [x] Update dependencies and migrate codes
-- [ ] Support Cloudflare-proxied downloading / raw / direct downloading
+- [x] Support Cloudflare-proxied downloading / raw / direct downloading
 - [x] TODOs in files
 
 <div align="center">

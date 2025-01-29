@@ -409,7 +409,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
           return <EPUBPreview file={file} />
 
         case preview.url:
-          return <URLPreview file={file} />
+          return <URLPreview />
 
         default:
           return <DefaultPreview file={file} />

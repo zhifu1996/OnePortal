@@ -33,8 +33,8 @@ export default async function handler(req: NextRequest): Promise<Response> {
         status: 200,
         headers: {
           'content-type': 'application/json',
-          'Cache-Control': apiConfig.cacheControlHeader
-        }
+          'Cache-Control': apiConfig.cacheControlHeader,
+        },
       })
     } catch (error: any) {
       return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {

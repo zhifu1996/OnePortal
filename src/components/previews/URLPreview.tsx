@@ -13,7 +13,7 @@ const parseDotUrl = (content: string): string | undefined => {
     ?.split('=')[1]
 }
 
-const TextPreview = ({ file }) => {
+const TextPreview = () => {
   const { asPath } = useRouter()
 
   const { response: content, error, validating } = useFileContent(`/api/raw?path=${asPath}`, asPath)
@@ -53,7 +53,7 @@ const TextPreview = ({ file }) => {
             btnColor="blue"
             btnText={'Open URL'}
             btnIcon="external-link-alt"
-            btnTitle={`Open URL ${' ' + parseDotUrl(content) ?? ''}`}
+            btnTitle={`Open URL ${' ' + (parseDotUrl(content) ?? '')}`}
           />
         </div>
       </DownloadBtnContainer>

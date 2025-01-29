@@ -53,7 +53,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
     const thumbnailUrl = data.value && data.value.length > 0 ? (data.value[0] as OdThumbnail)[size].url : null
     if (thumbnailUrl) {
       const headers = new Headers({
-        Location: thumbnailUrl
+        Location: thumbnailUrl,
       })
       if (code === 200) headers.set('Cache-Control', apiConfig.cacheControlHeader)
       return new Response(null, { status: 302, headers })

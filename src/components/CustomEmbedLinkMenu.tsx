@@ -1,5 +1,13 @@
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from 'react'
-import { Dialog, DialogPanel, DialogBackdrop, DialogTitle, Description, Transition, TransitionChild } from '@headlessui/react'
+import {
+  Dialog,
+  DialogPanel,
+  DialogBackdrop,
+  DialogTitle,
+  Description,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -13,10 +21,10 @@ function LinkContainer({ title, value }: { title: string; value: string }) {
     <div className="mt-4">
       <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">{title}</h4>
       <div className="group relative mt-2 rounded-xl border border-gray-200/50 bg-white/50 p-3 font-mono dark:border-gray-700/50 dark:bg-gray-700/50">
-        <div className="pr-8 text-sm text-gray-600 dark:text-gray-300 break-all">{value}</div>
+        <div className="break-all pr-8 text-sm text-gray-600 dark:text-gray-300">{value}</div>
         <button
           onClick={() => clipboard.copy(value)}
-          className="absolute right-2 top-2 rounded-lg border border-gray-200/50 bg-white/80 p-2 opacity-0 transition-all hover:bg-gray-100 group-hover:opacity-100 dark:border-gray-700/50 dark:bg-gray-800/80 dark:hover:bg-gray-700/80"
+          className="absolute right-2 top-2 rounded-lg border border-gray-200/50 bg-white/80 p-2 opacity-0 transition-all group-hover:opacity-100 hover:bg-gray-100 dark:border-gray-700/50 dark:bg-gray-800/80 dark:hover:bg-gray-700/80"
         >
           {clipboard.copied ? (
             <FontAwesomeIcon icon="check" className="h-4 w-4 text-green-500" />
@@ -61,7 +69,7 @@ export default function CustomEmbedLinkMenu({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <DialogBackdrop className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm" />
+            <DialogBackdrop className="fixed inset-0 bg-black/30 backdrop-blur-sm dark:bg-black/50" />
           </TransitionChild>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -77,7 +85,7 @@ export default function CustomEmbedLinkMenu({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <DialogPanel className="my-8 inline-block w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white/80 p-6 text-left align-middle shadow-lg transition-all dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
+            <DialogPanel className="my-8 inline-block w-full max-w-3xl transform overflow-hidden rounded-2xl border border-gray-200/50 bg-white/80 p-6 text-left align-middle shadow-lg backdrop-blur-sm transition-all dark:border-gray-700/50 dark:bg-gray-800/80">
               <DialogTitle as="h3" className="text-xl font-bold text-gray-900 dark:text-gray-100">
                 {'Customise direct link'}
               </DialogTitle>
@@ -97,7 +105,9 @@ export default function CustomEmbedLinkMenu({
               </Description>
 
               <div className="mt-6">
-                <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">{'Filename'}</h4>
+                <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                  {'Filename'}
+                </h4>
                 <input
                   className="mt-2 w-full rounded-xl border border-gray-200/50 bg-white/50 p-3 font-mono text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:border-gray-700/50 dark:bg-gray-700/50 dark:text-white"
                   ref={focusInputRef}

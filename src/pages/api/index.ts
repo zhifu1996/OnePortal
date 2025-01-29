@@ -305,21 +305,12 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
       // Return paging token if specified
       if (nextPage) {
-        return new NextResponse(
-          JSON.stringify({ folder: folderData, next: nextPage }),
-          { headers }
-        )
+        return new NextResponse(JSON.stringify({ folder: folderData, next: nextPage }), { headers })
       } else {
-        return new NextResponse(
-          JSON.stringify({ folder: folderData }),
-          { headers }
-        )
+        return new NextResponse(JSON.stringify({ folder: folderData }), { headers })
       }
     }
-    return new NextResponse(
-      JSON.stringify({ file: identityData }),
-      { headers }
-    )
+    return new NextResponse(JSON.stringify({ file: identityData }), { headers })
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
       status: error?.response?.code ?? 500,

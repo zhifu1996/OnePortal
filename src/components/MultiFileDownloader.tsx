@@ -52,6 +52,7 @@ export function downloadBlob({ blob, name }: { blob: Blob; name: string }) {
 /**
  * Download multiple files after compressing them into a zip
  * @param toastId Toast ID to be used for toast notification
+ * @param router NextRouter instance, used for reloading
  * @param files Files to be downloaded
  * @param folder Optional folder name to hold files, otherwise flatten files in the zip
  */
@@ -91,6 +92,7 @@ export async function downloadMultipleFiles({
 /**
  * Download hierarchical tree-like files after compressing them into a zip
  * @param toastId Toast ID to be used for toast notification
+ * @param router NextRouter instance, used for reloading
  * @param files Files to be downloaded. Array of file and folder items excluding root folder.
  * Folder items MUST be in front of its children items in the array.
  * Use async generator because generation of the array may be slow.

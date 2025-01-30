@@ -9,7 +9,7 @@ import useFileContent from '../../utils/fetchOnMount'
 import { getLanguageByFileName } from '../../utils/getPreviewType'
 import FourOhFour from '../FourOhFour'
 import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import DownloadButtonGroup from '../DownloadBtnGroup'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const CodePreview: FC<{ file: any }> = ({ file }) => {

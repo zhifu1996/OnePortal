@@ -108,10 +108,10 @@ const DownloadButtonGroup = () => {
             clipboard.copy(
               `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
             )
-            toast.success('Copied proxied link to clipboard.')
+            toast.success('Copied proxy link to clipboard.')
           }}
           btnColor="green"
-          btnText={'Copy proxied link'}
+          btnText={'Copy proxy link'}
           btnIcon="copy"
           btnTitle={'Copy the permalink to the file to the clipboard'}
         />

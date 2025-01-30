@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { useRouter } from 'next/router'
 
 import { PreviewContainer, DownloadBtnContainer } from './Containers'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import DownloadButtonGroup from '../DownloadBtnGroup'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 const ImagePreview: FC<{ file: OdFileObject }> = ({ file }) => {

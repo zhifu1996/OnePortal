@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import DownloadButtonGroup from '../DownloadBtnGroup'
 import { DownloadBtnContainer } from './Containers'
 import siteConfig from '../../../config/site.config'
 

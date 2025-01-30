@@ -5,7 +5,7 @@ import { ReactReader } from 'react-reader'
 import { useRouter } from 'next/router'
 
 import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import DownloadButtonGroup from '../DownloadBtnGroup'
 import { DownloadBtnContainer } from './Containers'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 

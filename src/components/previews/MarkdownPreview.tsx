@@ -13,7 +13,7 @@ import 'katex/dist/katex.min.css'
 import useFileContent from '../../utils/fetchOnMount'
 import FourOhFour from '../FourOhFour'
 import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import DownloadButtonGroup from '../DownloadBtnGroup'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const MarkdownPreview: FC<{

@@ -110,7 +110,7 @@ export default function CustomEmbedLinkMenu({
               <div className="mt-6">
                 <div className="mb-6 flex items-center justify-between">
                   <h4 className="text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300">
-                    {'Proxied'}
+                    {'Proxy'}
                   </h4>
 
                   <Switch.Group as="div" className="flex items-center">

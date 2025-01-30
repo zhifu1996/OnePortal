@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import FourOhFour from '../FourOhFour'
 import Loading from '../Loading'
-import { DownloadButton } from '../DownloadBtnGtoup'
+import { DownloadButton } from '../DownloadBtnGroup'
 import useFileContent from '../../utils/fetchOnMount'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 

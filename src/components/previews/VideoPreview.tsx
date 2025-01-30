@@ -13,7 +13,7 @@ import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getExtension } from '../../utils/getFileIcon'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
-import { DownloadButton } from '../DownloadBtnGtoup'
+import { DownloadButton } from '../DownloadBtnGroup'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 import FourOhFour from '../FourOhFour'
 import Loading from '../Loading'
@@ -156,10 +156,10 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
               clipboard.copy(
                 `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
               )
-              toast.success('Copied proxied link to clipboard.')
+              toast.success('Copied proxy link to clipboard.')
             }}
             btnColor="green"
-            btnText={'Copy proxied link'}
+            btnText={'Copy proxy link'}
             btnIcon="copy"
             btnTitle={'Copy the permalink to the file to the clipboard'}
           />

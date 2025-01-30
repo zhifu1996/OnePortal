@@ -162,6 +162,7 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             btnText={'Copy proxy link'}
             btnIcon="copy"
             btnTitle={'Copy the permalink to the file to the clipboard'}
+            disabled={!siteConfig.allowProxy}
           />
           <DownloadButton
             onClickCallback={() => setMenuOpen(true)}

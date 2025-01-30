@@ -60,7 +60,7 @@ const queryToPath = (query?: ParsedUrlQuery) => {
   return '/'
 }
 
-// Render the icon of a folder child (may be a file or a folder), use emoji if the name of the child contains emoji
+// Render the icon of a folder child (maybe a file or a folder), use emoji if the name of the child contains emoji
 const renderEmoji = (name: string) => {
   const emoji = emojiRegex().exec(name)
   return { render: emoji && !emoji.index, emoji }
@@ -192,7 +192,9 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
   if ('folder' in responses[0]) {
     // Expand list of API returns into flattened file data
-    const folderChildren = [].concat(...responses.map(r => r.folder.value)) as OdFolderObject['value']
+    const folderChildren = ([].concat(...responses.map(r => r.folder.value)) as OdFolderObject['value']).filter(
+      item => item.name.toLowerCase() !== '.password' && item.name.toLowerCase() !== '.totp',
+    )
 
     // Find README.md file to render
     const readmeFile = folderChildren.find(c => c.name.toLowerCase() === 'readme.md')

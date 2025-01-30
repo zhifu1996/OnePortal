@@ -31,9 +31,8 @@ export function useProtectedSWRInfinite(path: string = '') {
 
   /**
    * Next page infinite loading for useSWR
-   * @param pageIdx The index of this paging collection
-   * @param prevPageData Previous page information
-   * @param path Directory path
+   * @param pageIndex The index of this paging collection
+   * @param previousPageData Previous page information
    * @returns API to the next page
    */
   function getNextKey(pageIndex: number, previousPageData: OdAPIResponse): (string | null)[] | null {

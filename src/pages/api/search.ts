@@ -1,5 +1,4 @@
 import axios from 'redaxios'
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { encodePath, getAccessToken } from '.'
 import apiConfig from '../../../config/api.config'
@@ -52,7 +51,13 @@ export default async function handler(req: NextRequest): Promise<Response> {
           top: siteConfig.maxItems,
         },
       })
-      return NextResponse.json(data.value)
+      return new NextResponse(JSON.stringify(data), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': apiConfig.cacheControlHeader,
+        },
+      })
     } catch (error: any) {
       return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
         status: error?.response?.status ?? 500,

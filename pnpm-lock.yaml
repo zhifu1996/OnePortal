@@ -157,10 +157,10 @@ importers:
         specifier: ^4.0.2
         version: 4.2.2
       '@types/node':
-        specifier: 22.12.0
+        specifier: ^22.12.0
         version: 22.12.0
       '@types/react':
-        specifier: 19.0.8
+        specifier: ^19.0.8
         version: 19.0.8
       '@types/react-copy-to-clipboard':
         specifier: ^5.0.4
@@ -175,10 +175,10 @@ importers:
         specifier: ^10.4.13
         version: 10.4.20(postcss@8.5.1)
       eslint:
-        specifier: 9.19.0
+        specifier: ^9.19.0
         version: 9.19.0(jiti@2.4.2)
       eslint-config-next:
-        specifier: 15.1.6
+        specifier: ^15.1.6
         version: 15.1.6(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3)
       eslint-config-prettier:
         specifier: ^10.0.1
@@ -193,7 +193,7 @@ importers:
         specifier: ^0.6.11
         version: 0.6.11(prettier@3.4.2)
       tailwindcss:
-        specifier: 3.4.17
+        specifier: ^3.4.17
         version: 3.4.17(ts-node@10.9.1(@types/node@22.12.0)(typescript@5.7.3))
       typescript:
         specifier: 5.7.3

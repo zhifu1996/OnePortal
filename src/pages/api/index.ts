@@ -1,11 +1,12 @@
 import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
 import { TOTP } from 'totp-generator'
+import { KVNamespace } from '@cloudflare/workers-types'
+import CryptoJS from 'crypto-js'
 
 import apiConfig from '../../../config/api.config'
 import siteConfig from '../../../config/site.config'
 import { getAuthPersonInfo, revealObfuscatedToken } from '../../utils/oAuthHandler'
-import { compareHashedToken } from '../../utils/protectedRouteHandler'
 import { getOdAuthTokens, storeOdAuthTokens } from '../../utils/odAuthTokenStore'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -146,6 +147,32 @@ const fetchProtectedContent = async (filePath: string, accessToken: string): Pro
   return content.data.toString()
 }
 
+async function readTryingRecord(cleanPath: string): Promise<[number, number]> {
+  const key = `triedAtFor${cleanPath}`
+  const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
+  const triedAtRecord = await OPT_KV.get(key)
+  if (triedAtRecord) {
+    const { time, status } = JSON.parse(triedAtRecord)
+    const triedAt = Number(time)
+    if (isNaN(triedAt)) {
+      throw new Error('Internal server error.')
+    }
+    return [time, status]
+  } else {
+    return [0, 1]
+  }
+}
+
+async function writeTryingRecord(cleanPath: string, time: number, status: number) {
+  console.log('[]write record with status ' + status)
+  const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
+  const value = {
+    time,
+    status,
+  }
+  await OPT_KV.put(`triedAtFor${cleanPath}`, JSON.stringify(value))
+}
+
 /**
  * Handles protected route authentication:
  * - Match the cleanPath against an array of user defined protected routes
@@ -162,7 +189,7 @@ export async function checkAuthRoute(
   cleanPath: string,
   accessToken: string,
   odTokenHeader: string,
-): Promise<{ code: 200 | 401 | 404 | 500; message: string }> {
+): Promise<{ code: 200 | 401 | 404 | 429 | 500; message: string }> {
   try {
     // Handle authentication through .password or .totp
     const authFilePath = await getAuthFilePath(cleanPath, accessToken)
@@ -172,23 +199,68 @@ export async function checkAuthRoute(
       return { code: 200, message: 'Authenticated.' }
     }
 
-    if (authFilePath.endsWith('.totp')) {
-      const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
-      const totpCode = TOTP.generate(totpSecret).otp
+    if (odTokenHeader === null) {
+      return { code: 401, message: 'Password required.' }
+    }
 
-      if (!compareHashedToken({ odTokenHeader, secret: totpCode })) {
-        return { code: 401, message: 'TOTP code required.' }
+    odTokenHeader = decodeURIComponent(odTokenHeader)
+    const code = CryptoJS.AES.decrypt(odTokenHeader, apiConfig.aesKey).toString(CryptoJS.enc.Utf8)
+    if (!code) {
+      return { code: 500, message: 'Internal server error. Try clear local storage.' }
+    }
+
+    if (authFilePath.endsWith('.totp')) {
+      const [timestamp, status] = await readTryingRecord(cleanPath)
+
+      switch (status) {
+        case 0: {
+          const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
+          const totpCode = TOTP.generate(totpSecret, { timestamp }).otp
+          if (code === totpCode) {
+            return { code: 200, message: 'Authenticated.' }
+          } else {
+            await writeTryingRecord(cleanPath, Date.now(), 1)
+            return { code: 401, message: 'Wrong password.' }
+          }
+        }
+
+        case 1: {
+          const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
+          const totpCode = TOTP.generate(totpSecret).otp
+          if (code === totpCode) {
+            await writeTryingRecord(cleanPath, Date.now(), 0)
+            return { code: 200, message: 'Authenticated.' }
+          } else {
+            await writeTryingRecord(cleanPath, Date.now(), 2)
+            return { code: 401, message: 'Wrong password.' }
+          }
+        }
+
+        case 2: {
+          const timeDiff = Date.now() - timestamp
+          if (timeDiff < 30000) {
+            return { code: 429, message: 'Too many requests. Try 30s later.' }
+          }
+          const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
+          const totpCode = TOTP.generate(totpSecret).otp
+          if (code === totpCode) {
+            await writeTryingRecord(cleanPath, Date.now(), 0)
+            return { code: 200, message: 'Authenticated.' }
+          } else {
+            await writeTryingRecord(cleanPath, Date.now(), 1)
+            return { code: 401, message: 'Wrong password.' }
+          }
+        }
       }
-      return { code: 200, message: 'Authenticated.' }
     }
 
     if (authFilePath.endsWith('.password')) {
       const password = await fetchProtectedContent(authFilePath, accessToken)
-
-      if (!compareHashedToken({ odTokenHeader, secret: password })) {
+      if (code === password) {
+        return { code: 200, message: 'Authenticated.' }
+      } else {
         return { code: 401, message: 'Password required.' }
       }
-      return { code: 200, message: 'Authenticated.' }
     }
   } catch (error: any) {
     if (error?.response?.status === 404) {

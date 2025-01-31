@@ -24,7 +24,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   if (typeof path !== 'string') {
     return new Response(JSON.stringify({ error: 'Path query invalid.' }), { status: 400 })
   }
-  const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path))
+  const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path)).replace('.password', '').replace('.totp', '')
 
   // Handle protected routes authentication
   const odTokenHeader = (req.headers.get('od-protected-token') as string) ?? odpt

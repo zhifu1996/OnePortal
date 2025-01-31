@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+import axios from 'axios'
 
 import { matchProtectedRoute } from '../utils/protectedRouteHandler'
 import useLocalStorage from '../utils/useLocalStorage'
@@ -13,6 +14,12 @@ const Auth: FC<{ redirect: string }> = ({ redirect }) => {
   const router = useRouter()
   const [token, setToken] = useState('')
   const [_, setPersistedToken] = useLocalStorage(authTokenPath, '')
+
+  const handleSubmit = async () => {
+    const encrypted = await axios.get(`/api/encrypt?text=${token}`)
+    setPersistedToken(encodeURIComponent(encrypted.data))
+    router.reload()
+  }
 
   return (
     <div className="mx-auto flex max-w-sm flex-col space-y-4 md:my-10">
@@ -36,19 +43,15 @@ const Auth: FC<{ redirect: string }> = ({ redirect }) => {
           onChange={e => {
             setToken(e.target.value)
           }}
-          onKeyPress={e => {
+          onKeyPress={async e => {
             if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-              setPersistedToken(token)
-              router.reload()
+              handleSubmit()
             }
           }}
         />
         <button
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-400"
-          onClick={() => {
-            setPersistedToken(token)
-            router.reload()
-          }}
+          onClick={handleSubmit}
         >
           <FontAwesomeIcon icon="arrow-right" />
         </button>

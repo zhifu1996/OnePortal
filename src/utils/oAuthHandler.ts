@@ -14,7 +14,7 @@ export function revealObfuscatedToken(obfuscated: string): string {
   return decrypted.toString(CryptoJS.enc.Utf8)
 }
 
-// Generate the Microsoft OAuth 2.0 authorization URL, used for requesting the authorisation code
+// Generate the Microsoft OAuth 2.0 authorization URL, used for requesting the authorization code
 export function generateAuthorisationUrl(): string {
   const { clientId, redirectUri, authApi, scope } = apiConfig
   const authUrl = authApi.replace('/token', '/authorize')

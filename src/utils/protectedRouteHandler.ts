@@ -1,27 +1,12 @@
-import sha256 from 'crypto-js/sha256'
 import siteConfig from '../../config/site.config'
-
-// Hash password token with SHA256
-function encryptToken(token: string): string {
-  return sha256(token).toString()
-}
 
 // Fetch stored token from localStorage and encrypt with SHA256
 export function getStoredToken(path: string): string | null {
   const storedToken =
     typeof window !== 'undefined' ? JSON.parse(localStorage.getItem(matchProtectedRoute(path)) as string) : ''
-  return storedToken ? encryptToken(storedToken) : null
+  return storedToken ? storedToken : null
 }
 
-/**
- * Compares the hash of .password and od-protected-token header
- * @param odTokenHeader od-protected-token header (sha256 hashed token)
- * @param dotPassword non-hashed .password file
- * @returns whether the two hashes are the same
- */
-export function compareHashedToken({ odTokenHeader, secret }: { odTokenHeader: string; secret: string }): boolean {
-  return encryptToken(secret.trim()) === odTokenHeader
-}
 /**
  * Match the specified route against a list of predefined routes
  * @param route directory path

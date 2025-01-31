@@ -97,7 +97,7 @@ export default function CustomEmbedLinkMenu({
                 <>
                   {'Change the raw file direct link to a URL ending with the extension of the file.'}{' '}
                   <a
-                    href="https://ovi.swo.moe/docs/features/customise-direct-link"
+                    href="https://efl.notion.site/Hosting-images-18bd8cf2460980b197ffc24282b8c147"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:text-blue-500 dark:text-blue-500 dark:hover:text-blue-400"

@@ -26,7 +26,7 @@ function LinkContainer({ title, value }: { title: string; value: string }) {
         <div className="break-all pr-8 text-sm text-gray-600 dark:text-gray-300">{value}</div>
         <button
           onClick={() => clipboard.copy(value)}
-          className="absolute right-2 top-2 rounded-lg border border-gray-200/50 bg-white/80 p-2 opacity-0 transition-all group-hover:opacity-100 hover:bg-gray-100 dark:border-gray-700/50 dark:bg-gray-800/80 dark:hover:bg-gray-700/80"
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg border border-gray-200/50 bg-white/80 p-1.5 opacity-0 transition-all group-hover:opacity-100 hover:bg-gray-100 dark:border-gray-700/50 dark:bg-gray-800/80 dark:hover:bg-gray-700/80"
         >
           {clipboard.copied ? (
             <FontAwesomeIcon icon="check" className="h-4 w-4 text-green-500" />
@@ -61,7 +61,12 @@ export default function CustomEmbedLinkMenu({
 
   return (
     <Transition appear show={menuOpen} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeMenu} initialFocus={focusInputRef}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-[200] overflow-y-auto"
+        onClose={closeMenu}
+        initialFocus={focusInputRef}
+      >
         <div className="min-h-screen px-4 text-center">
           <TransitionChild
             as={Fragment}

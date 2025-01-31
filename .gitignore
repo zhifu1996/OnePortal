@@ -71,3 +71,6 @@ Temporary Items
 # Wrangler
 .wrangler
 wrangler.toml
+
+# IDE
+.idea

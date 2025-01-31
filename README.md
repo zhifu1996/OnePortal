@@ -1,6 +1,7 @@
 <div align="center">
   <img src="./public/header.png" alt="OnePortal" />
   <h2>OnePortal</h2>
+  English | <a href="https://github.com/EFLKumo/OnePortal/blob/main/README_cn.md">简体中文</a>
   <p><em>OneDrive public directory listing forked from <a href="https://github.com/lyc8503/onedrive-cf-index-ng">onedrive-cf-index-ng</a>, powered by Cloudflare and Next.js</em></p>
 
   <img src="https://img.shields.io/badge/OneDrive-2C68C3?style=flat&logo=microsoft-onedrive&logoColor=white" alt="OneDrive" />
@@ -23,12 +24,12 @@ Showcase, share, preview, and download files inside *your* OneDrive with OnePort
 ## What's different
 Compared with [onedrive-cf-index-ng](https://github.com/lyc8503/onedrive-cf-index-ng):
 - 🚀 Proxy downloading through Cloudflare network
-- 🛠️ More environment variables
 - 🔐 Improve security by:
   - allowing to use TOTP instead of password
   - set custom AES secret key and client secret in environment variables
 - 😋 Better user interface
 - 🍪 Edge function caching for faster load times
+- 🛠️ More environment variables
 - 🧰 Updated dependencies
 
 *Special thanks to the original author of od-cf-index-ng [@lyc8503](https://github.com/lyc8503) and author of onedrive-vercel-index [@spencerwooo](https://github.com/spencerwooo) and all contributors.*
@@ -52,7 +53,6 @@ Live demo at [here](https://opt-demo.eflx.top).
     <tr>
       <td>
         👀 File preview
-        >
       </td>
       <td>
         💠  List / Grid layouts
@@ -69,7 +69,6 @@ Live demo at [here](https://opt-demo.eflx.top).
     <tr>
       <td>
         📄 Office preview
-        >
       </td>
       <td>📝 README.md preview</td>
       <td>📑 Pagination</td>

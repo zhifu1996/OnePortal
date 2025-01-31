@@ -241,7 +241,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response(JSON.stringify({ error: 'Path query invalid.' }), { status: 400 })
   }
   // Besides normalizing and making absolute, trailing slashes are trimmed
-  const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path)).replace(/\/$/, '')
+  const cleanPath = pathPosix
+    .resolve('/', pathPosix.normalize(path))
+    .replace(/\/$/, '')
+    .replace('.password', '')
+    .replace('.totp', '') // Stop from reading password or TOTP code
 
   // Validate sort param
   if (typeof sort !== 'string') {
@@ -272,7 +276,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // Whether path is root, which requires some special treatment
   const isRoot = requestPath === ''
 
-  // Querying current path identity (file or folder) and follow up query childrens in folder
+  // Querying current path identity (file or folder) and follow-up query children in folder
   try {
     const { data: identityData } = await axios.get(requestUrl, {
       headers: { Authorization: `Bearer ${accessToken}` },

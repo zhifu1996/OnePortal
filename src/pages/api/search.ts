@@ -49,7 +49,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
           top: siteConfig.maxItems,
         },
       })
-      return new NextResponse(JSON.stringify(data), {
+      return new NextResponse(JSON.stringify(data.value), {
         status: 200,
         headers: {
           'Content-Type': 'application/json',

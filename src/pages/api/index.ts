@@ -147,8 +147,8 @@ const fetchProtectedContent = async (filePath: string, accessToken: string): Pro
   return content.data.toString()
 }
 
-async function readTryingRecord(cleanPath: string): Promise<[number, number]> {
-  const key = `triedAtFor${cleanPath}`
+async function readTryingRecord(authFilePath: string): Promise<[number, number]> {
+  const key = `triedAtFor${authFilePath}`
   const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
   const triedAtRecord = await OPT_KV.get(key)
   if (triedAtRecord) {
@@ -163,14 +163,14 @@ async function readTryingRecord(cleanPath: string): Promise<[number, number]> {
   }
 }
 
-async function writeTryingRecord(cleanPath: string, time: number, status: number) {
+async function writeTryingRecord(authFilePath: string, time: number, status: number) {
   console.log('[]write record with status ' + status)
   const { OPT_KV } = process.env as unknown as { OPT_KV: KVNamespace }
   const value = {
     time,
     status,
   }
-  await OPT_KV.put(`triedAtFor${cleanPath}`, JSON.stringify(value))
+  await OPT_KV.put(`triedAtFor${authFilePath}`, JSON.stringify(value))
 }
 
 /**
@@ -210,7 +210,7 @@ export async function checkAuthRoute(
     }
 
     if (authFilePath.endsWith('.totp')) {
-      const [timestamp, status] = await readTryingRecord(cleanPath)
+      const [timestamp, status] = await readTryingRecord(authFilePath)
 
       switch (status) {
         case 0: {
@@ -219,7 +219,7 @@ export async function checkAuthRoute(
           if (code === totpCode) {
             return { code: 200, message: 'Authenticated.' }
           } else {
-            await writeTryingRecord(cleanPath, Date.now(), 1)
+            await writeTryingRecord(authFilePath, Date.now(), 1)
             return { code: 401, message: 'Wrong password.' }
           }
         }
@@ -228,10 +228,10 @@ export async function checkAuthRoute(
           const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
           const totpCode = TOTP.generate(totpSecret).otp
           if (code === totpCode) {
-            await writeTryingRecord(cleanPath, Date.now(), 0)
+            await writeTryingRecord(authFilePath, Date.now(), 0)
             return { code: 200, message: 'Authenticated.' }
           } else {
-            await writeTryingRecord(cleanPath, Date.now(), 2)
+            await writeTryingRecord(authFilePath, Date.now(), 2)
             return { code: 401, message: 'Wrong password.' }
           }
         }
@@ -244,10 +244,10 @@ export async function checkAuthRoute(
           const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
           const totpCode = TOTP.generate(totpSecret).otp
           if (code === totpCode) {
-            await writeTryingRecord(cleanPath, Date.now(), 0)
+            await writeTryingRecord(authFilePath, Date.now(), 0)
             return { code: 200, message: 'Authenticated.' }
           } else {
-            await writeTryingRecord(cleanPath, Date.now(), 1)
+            await writeTryingRecord(authFilePath, Date.now(), 1)
             return { code: 401, message: 'Wrong password.' }
           }
         }

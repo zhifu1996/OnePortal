@@ -27,10 +27,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   if (path === '[...path]') {
     return new Response(JSON.stringify({ error: 'No path specified.' }), { status: 400 })
   }
-  // If the path is not a valid path, return 400
-  if (typeof path !== 'string') {
-    return new Response(JSON.stringify({ error: 'Path query invalid.' }), { status: 400 })
-  }
+
   const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path))
 
   const { code, message } = await checkAuthRoute(cleanPath, accessToken, odpt as string)

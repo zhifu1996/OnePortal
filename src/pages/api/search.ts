@@ -34,34 +34,28 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // Query parameter from request
   const { q: searchQuery = '' } = Object.fromEntries(req.nextUrl.searchParams)
 
-  if (typeof searchQuery === 'string') {
-    // Construct Microsoft Graph Search API URL, and perform search only under the base directory
-    const searchRootPath = encodePath('/')
-    const encodedPath = searchRootPath === '' ? searchRootPath : searchRootPath + ':'
-
-    const searchApi = `${apiConfig.driveApi}/root${encodedPath}/search(q='${sanitiseQuery(searchQuery)}')`
-
-    try {
-      const { data } = await axios.get(searchApi, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-        params: {
-          select: 'id,name,file,folder,parentReference',
-          top: siteConfig.maxItems,
-        },
-      })
-      return new NextResponse(JSON.stringify(data.value), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': apiConfig.cacheControlHeader,
-        },
-      })
-    } catch (error: any) {
-      return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
-        status: error?.response?.status ?? 500,
-      })
-    }
-  } else {
-    return NextResponse.json([])
+   // Construct Microsoft Graph Search API URL, and perform search only under the base directory
+  const searchRootPath = encodePath('/')
+  const encodedPath = searchRootPath === '' ? searchRootPath : searchRootPath + ':'
+  const searchApi = `${apiConfig.driveApi}/root${encodedPath}/search(q='${sanitiseQuery(searchQuery)}')`
+  try {
+    const { data } = await axios.get(searchApi, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params: {
+        select: 'id,name,file,folder,parentReference',
+        top: siteConfig.maxItems,
+      },
+    })
+    return new NextResponse(JSON.stringify(data.value), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': apiConfig.cacheControlHeader,
+      },
+    })
+  } catch (error: any) {
+    return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
+      status: error?.response?.status ?? 500,
+    })
   }
 }

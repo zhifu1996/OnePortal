@@ -108,7 +108,6 @@ export async function getAuthFilePath(path: string, accessToken: string) {
   let authFilePath = ''
 
   for (let r of protectedRoutes) {
-    if (typeof r !== 'string') continue
     r = r.toLowerCase().replace(/\/$/, '') + '/'
     if (path.startsWith(r)) {
       const totpPath = `${r}.totp`
@@ -308,21 +307,13 @@ export default async function handler(req: NextRequest): Promise<Response> {
   if (path === '[...path]') {
     return new Response(JSON.stringify({ error: 'No path specified.' }), { status: 400 })
   }
-  // If the path is not a valid path, return 400
-  if (typeof path !== 'string') {
-    return new Response(JSON.stringify({ error: 'Path query invalid.' }), { status: 400 })
-  }
+
   // Besides normalizing and making absolute, trailing slashes are trimmed
   const cleanPath = pathPosix
     .resolve('/', pathPosix.normalize(path))
     .replace(/\/$/, '')
     .replace('.password', '')
     .replace('.totp', '') // Stop from reading password or TOTP code
-
-  // Validate sort param
-  if (typeof sort !== 'string') {
-    return new Response(JSON.stringify({ error: 'Sort query invalid.' }), { status: 400 })
-  }
 
   const accessToken = await getAccessToken()
 

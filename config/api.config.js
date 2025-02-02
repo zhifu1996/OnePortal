@@ -16,8 +16,8 @@ module.exports = {
 
   // The clientId and clientSecret are used to authenticate the user with Microsoft Graph API using OAuth. You would
   // not need to change anything here if you can authenticate with your personal Microsoft account with OneDrive International.
-  clientId: process.env.CLIENT_ID || '417cc4ee-9ecb-492b-b044-84b668ab811b',
-  obfuscatedClientSecret: process.env.CLIENT_SECRET || 'U2FsdGVkX1+r/6m12YyFICHltfXc8L7fdpnP9BDyi9tKMb9uGkCfzvpGsgrmaNQreleblUS5oJ2oE2KXg0HIJw==',
+  clientId: process.env.NEXT_PUBLIC_CLIENT_ID || '417cc4ee-9ecb-492b-b044-84b668ab811b',
+  obfuscatedClientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET || 'U2FsdGVkX1+r/6m12YyFICHltfXc8L7fdpnP9BDyi9tKMb9uGkCfzvpGsgrmaNQreleblUS5oJ2oE2KXg0HIJw==',
 
   // The redirectUri is the URL that the user will be redirected to after they have authenticated with Microsoft Graph API.
   // Likewise, you would not need to change redirectUri if you are using your personal Microsoft account with OneDrive International.
@@ -25,8 +25,8 @@ module.exports = {
 
   // These are the URLs of the OneDrive API endpoints. You would not need to change anything here if you are using OneDrive International
   // or E5 Subscription OneDrive for Business. You may need to change these if you are using OneDrive 世纪互联.
-  authApi: process.env.AUTH_API || 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-  driveApi: process.env.DRIVE_API || 'https://graph.microsoft.com/v1.0/me/drive',
+  authApi: process.env.NEXT_PUBLIC_AUTH_API || 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+  driveApi: process.env.NEXT_PUBLIC_DRIVE_API || 'https://graph.microsoft.com/v1.0/me/drive',
 
   // The scope we require are listed here, in most cases you would not need to change this as well.
   scope: 'user.read files.read.all offline_access',

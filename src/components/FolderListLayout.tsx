@@ -119,7 +119,7 @@ const FolderListLayout = ({
                 title={'Copy folder permalink'}
                 className="cursor-pointer rounded px-1.5 py-1 hover:bg-gray-300 dark:hover:bg-gray-600"
                 onClick={() => {
-                  clipboard.copy(`${getBaseUrl()}${`${path === '/' ? '' : path}/${encodeURIComponent(c.name)}`}`)
+                  clipboard.copy(`${getBaseUrl()}${path === '/' ? '' : path}/${encodeURIComponent(c.name)}`)
                   toast('Copied folder permalink.', { icon: '👌' })
                 }}
               >

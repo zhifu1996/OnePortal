@@ -54,7 +54,7 @@ export type OdThumbnail = {
   small: { height: number; width: number; url: string }
 }
 // API response object for /api/search/?q=<query>. Likewise, this array of items may also contain either files or folders.
-// Now /api/search returns an id only since we use MS Graph Search endpoint to search and it doesn't support some key properties.
+// Now /api/search returns an id only since we use MS Graph Search endpoint to search, and it doesn't support some key properties.
 // Client side should use this id to call /api/item,
 // the reason not using OneDrive Search API: https://github.com/EFLKumo/OnePortal/issues/2
 export type OdSearchResult = Array<{

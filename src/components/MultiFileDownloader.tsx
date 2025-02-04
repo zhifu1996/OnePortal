@@ -171,7 +171,7 @@ interface TraverseItem {
  * We will directly fetch API and arrange responses instead.
  * In folder tree, we visit folders top-down as concurrently as possible.
  * Every time we visit a folder, we fetch and return meta of all its children.
- * If folders have pagination, partically retrieved items are not returned immediately,
+ * If folders have pagination, partially retrieved items are not returned immediately,
  * but after all children of the folder have been successfully retrieved.
  * If an error occurred in paginated fetching, all children will be dropped.
  * @param path Folder to be traversed. The path should be cleaned in advance.

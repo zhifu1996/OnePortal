@@ -1,4 +1,4 @@
-<div align="center">
+<div style="text-align: center">
   <img src="./public/header.png" alt="OnePortal" />
   <h2>OnePortal</h2>
   <a href="https://github.com/EFLKumo/OnePortal/blob/main/README.md">English</a> | 简体中文
@@ -118,7 +118,7 @@
 
 [MIT](LICENSE)
 
-<div align="center">
+<div style="text-align: center">
   <img src="./public/footer.png" alt="footer"/>
   <em>由 <a href="https://eflx.top">EFL</a> & <a href="https://lyc8503.net">lyc8503</a> & <a href="https://spencerwoo.com">spencer woo</a> 和贡献者用 ❤️ 制作</em>
 </div>

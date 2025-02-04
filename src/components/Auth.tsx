@@ -45,7 +45,7 @@ const Auth: FC<{ redirect: string }> = ({ redirect }) => {
           }}
           onKeyPress={async e => {
             if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-              handleSubmit()
+              await handleSubmit()
             }
           }}
         />

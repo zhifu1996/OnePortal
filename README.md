@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
   <img src="./public/header.png" alt="OnePortal" />
   <h2>OnePortal</h2>
   English | <a href="https://github.com/EFLKumo/OnePortal/blob/main/README_cn.md">简体中文</a>
@@ -120,7 +120,7 @@ Documentation is hosted at [OnePortal Wiki](https://efl.notion.site/18bd8cf24609
 
 [MIT](LICENSE)
 
-<div style="text-align: center">
+<div align="center">
   <img src="./public/footer.png"  alt="footer"/>
   <em>made with ❤️ by <a href="https://eflx.top">EFL</a> & <a href="https://lyc8503.net">lyc8503</a> & <a href="https://spencerwoo.com">spencer woo</a> and contributors</em>
 </div>

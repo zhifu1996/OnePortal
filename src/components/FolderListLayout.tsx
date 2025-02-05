@@ -6,9 +6,9 @@ import { useClipboard } from 'use-clipboard-copy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { getBaseUrl } from '../utils/getBaseUrl'
-import { humanFileSize, formatModifiedDateTime } from '../utils/fileDetails'
+import { formatModifiedDateTime, humanFileSize } from '../utils/fileDetails'
 
-import { Downloading, Checkbox, ChildIcon, ChildName } from './FileListing'
+import { Checkbox, ChildIcon, ChildName, Downloading } from './FileListing'
 import { getStoredToken } from '../utils/protectedRouteHandler'
 
 const FileListItem: FC<{ fileContent: OdFolderChildren }> = ({ fileContent: c }) => {

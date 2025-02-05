@@ -2,8 +2,8 @@ import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
 
 import siteConfig from '../../../config/site.config'
-import { driveApi, cacheControlHeader } from '../../../config/api.config'
-import { encodePath, getAccessToken, checkAuthRoute } from '.'
+import { cacheControlHeader, driveApi } from '../../../config/api.config'
+import { checkAuthRoute, encodePath, getAccessToken } from '.'
 import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'

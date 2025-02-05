@@ -1,13 +1,13 @@
 import { Dispatch, Fragment, SetStateAction, useRef, useState } from 'react'
 import {
-  Dialog,
-  DialogPanel,
-  DialogBackdrop,
-  DialogTitle,
   Description,
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+  Switch,
   Transition,
   TransitionChild,
-  Switch,
 } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useClipboard } from 'use-clipboard-copy'

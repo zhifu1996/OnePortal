@@ -3,7 +3,7 @@ import type { OdFileObject } from '../../types'
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { PreviewContainer, DownloadBtnContainer } from './Containers'
+import { DownloadBtnContainer, PreviewContainer } from './Containers'
 import DownloadButtonGroup from '../DownloadBtnGroup'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 

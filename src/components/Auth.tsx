@@ -13,11 +13,10 @@ const Auth: FC<{ redirect: string }> = ({ redirect }) => {
 
   const router = useRouter()
   const [token, setToken] = useState('')
-  const [_, setPersistedToken] = useLocalStorage(authTokenPath, '')
+  const [_, setPersistedToken] = useLocalStorage(`opt-auth-pass-${encodeURIComponent(authTokenPath)}`, '')
 
   const handleSubmit = async () => {
-    const encrypted = await axios.get(`/api/encrypt?text=${token}`)
-    setPersistedToken(encodeURIComponent(encrypted.data))
+    setPersistedToken(token)
     router.reload()
   }
 

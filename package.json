@@ -49,7 +49,8 @@
     "tailwind-scrollbar": "^3.1.0",
     "totp-generator": "^1.0.0",
     "use-clipboard-copy": "^0.2.0",
-    "use-constant": "^1.1.1"
+    "use-constant": "^1.1.1",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.6.3",

@@ -9,7 +9,9 @@ const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {
   const { asPath } = useRouter()
   const [_, token] = getStoredToken(asPath)
 
-  const pdfPath = encodeURIComponent(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`)
+  const pdfPath = encodeURIComponent(
+    `${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${encodeURIComponent(token)}` : ''}`,
+  )
 
   const urlPrefix = siteConfig.PDFPreviewUrlPrefix
   const url = `${urlPrefix}${pdfPath}`

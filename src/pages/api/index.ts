@@ -212,11 +212,11 @@ export async function checkAuthRoute(
           return { code: 500, message: 'Internal server error. Record is not a valid number.' }
         }
       }
-      await writeKV(`${authFilePath}TriedAt`, Date.now().toString())
 
       const uuid = uuidV4()
       const token = CryptoJS.AES.encrypt(`${uuid},${authPass}`, apiConfig.aesKey).toString()
       await writeKV(uuid, Date.now().toString())
+      await writeKV(`${authFilePath}TriedAt`, Date.now().toString())
       return { code: 403, message: token }
     }
 
@@ -231,7 +231,7 @@ export async function checkAuthRoute(
       const totpSecret = await fetchProtectedContent(authFilePath, accessToken)
       const totpCode = TOTP.generate(totpSecret, { timestamp }).otp
 
-      if (code === totpCode) return { code: 200, message: 'Authenticated' }
+      if (code === totpCode) return { code: 200, message: 'Authenticated.' }
       else {
         await deleteKV(uuid)
         return { code: 401, message: 'Unauthorized.' }

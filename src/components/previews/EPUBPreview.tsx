@@ -53,7 +53,7 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             }}
           >
             <ReactReader
-              url={`/api/raw?path=${asPath}${token ? '&odpt=' + token : ''}`}
+              url={`/api/raw?path=${asPath}${token ? '&odpt=' + encodeURIComponent(token) : ''}`}
               getRendition={rendition => fixEpub(rendition)}
               loadingView={<Loading loadingText={'Loading EPUB ...'} />}
               location={location}

@@ -13,10 +13,12 @@ const Auth: FC<{ redirect: string }> = ({ redirect }) => {
 
   const router = useRouter()
   const [token, setToken] = useState('')
-  const [_, setPersistedToken] = useLocalStorage(`opt-auth-pass-${encodeURIComponent(authTokenPath)}`, '')
+  const [_, setAuthPass] = useLocalStorage(`opt-auth-pass-${encodeURIComponent(authTokenPath)}`, '')
+  const [authToken, setAuthToken] = useLocalStorage(`opt-auth-token-${encodeURIComponent(authTokenPath)}`, '')
 
   const handleSubmit = async () => {
-    setPersistedToken(token)
+    setAuthPass(token)
+    setAuthToken('')
     router.reload()
   }
 

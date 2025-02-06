@@ -16,7 +16,9 @@ const OfficePreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const docContainer = useRef<HTMLDivElement>(null)
   const [docContainerWidth, setDocContainerWidth] = useState(600)
 
-  const docUrl = encodeURIComponent(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`)
+  const docUrl = encodeURIComponent(
+    `${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${encodeURIComponent(token)}` : ''}`,
+  )
 
   useEffect(() => {
     setDocContainerWidth(docContainer.current ? docContainer.current.offsetWidth : 600)

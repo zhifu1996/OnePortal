@@ -17,7 +17,7 @@ export default function useFileContent(
 
   useEffect(() => {
     const [_, token] = getStoredToken(path)
-    const url = fetchUrl + (token ? `&odpt=${token}` : '')
+    const url = fetchUrl + (token ? `&odpt=${encodeURIComponent(token)}` : '')
 
     axios
       // Using 'blob' as response type to get the response as a raw file blob, which is later parsed as a string.

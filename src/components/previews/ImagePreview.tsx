@@ -9,7 +9,7 @@ import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 const ImagePreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
-  const hashedToken = getStoredToken(asPath)
+  const [_, token] = getStoredToken(asPath)
 
   return (
     <>
@@ -17,7 +17,7 @@ const ImagePreview: FC<{ file: OdFileObject }> = ({ file }) => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="mx-auto"
-          src={`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`}
+          src={`/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`}
           alt={file.name}
           width={file.image?.width}
           height={file.image?.height}

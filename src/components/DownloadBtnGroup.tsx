@@ -67,7 +67,7 @@ export const DownloadButton = ({
 
 const DownloadButtonGroup = () => {
   const { asPath } = useRouter()
-  const hashedToken = getStoredToken(asPath)
+  const [_, token] = getStoredToken(asPath)
 
   const clipboard = useClipboard()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -77,16 +77,14 @@ const DownloadButtonGroup = () => {
       <CustomEmbedLinkMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} path={asPath} />
       <div className="flex flex-wrap justify-center gap-2">
         <DownloadButton
-          onClickCallback={() => window.open(`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)}
+          onClickCallback={() => window.open(`/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`)}
           btnColor="blue"
           btnText={'Download'}
           btnIcon="file-download"
           btnTitle={'Download the file directly through OneDrive'}
         />
         <DownloadButton
-          onClickCallback={() =>
-            window.open(`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`)
-          }
+          onClickCallback={() => window.open(`/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}&proxy=true`)}
           btnColor="yellow"
           btnText={'Proxy Download'}
           btnIcon="download"
@@ -95,7 +93,7 @@ const DownloadButtonGroup = () => {
         />
         <DownloadButton
           onClickCallback={() => {
-            clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)
+            clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`)
             toast.success('Copied direct link to clipboard.')
           }}
           btnColor="pink"
@@ -105,9 +103,7 @@ const DownloadButtonGroup = () => {
         />
         <DownloadButton
           onClickCallback={() => {
-            clipboard.copy(
-              `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
-            )
+            clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}&proxy=true`)
             toast.success('Copied proxy link to clipboard.')
           }}
           btnColor="green"

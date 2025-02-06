@@ -154,7 +154,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   }>({})
 
   const router = useRouter()
-  const hashedToken = getStoredToken(router.asPath)
+  const [pass, token] = getStoredToken(router.asPath)
   const [layout] = useLocalStorage('preferredLayout', layouts[0])
 
   const path = queryToPath(query)
@@ -276,7 +276,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         .filter(c => selected[c.id])
         .map(c => ({
           name: c.name,
-          url: `/api/raw?path=${path}/${encodeURIComponent(c.name)}${hashedToken ? `&odpt=${hashedToken}` : ''}`,
+          url: `/api/raw?path=${path}/${encodeURIComponent(c.name)}${token ? `&odpt=${token}` : ''}`,
         }))
 
       if (files.length == 1) {
@@ -308,10 +308,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
     const handleSelectedPermalink = (baseUrl: string) => {
       return getFiles()
         .filter(c => selected[c.id])
-        .map(
-          c =>
-            `${baseUrl}/api/raw?path=${path}/${encodeURIComponent(c.name)}${hashedToken ? `&odpt=${hashedToken}` : ''}`,
-        )
+        .map(c => `${baseUrl}/api/raw?path=${path}/${encodeURIComponent(c.name)}${token ? `&odpt=${token}` : ''}`)
         .join('\n')
     }
 
@@ -323,10 +320,10 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
             toast.error(`Failed to download folder ${p}: ${error.status} ${error.message} Skipped it to continue.`)
             continue
           }
-          const hashedTokenForPath = getStoredToken(p)
+          const [_, tokenForPath] = getStoredToken(p)
           yield {
             name: c?.name,
-            url: `/api/raw?path=${p}${hashedTokenForPath ? `&odpt=${hashedTokenForPath}` : ''}`,
+            url: `/api/raw?path=${p}${tokenForPath ? `&odpt=${tokenForPath}` : ''}`,
             path: p,
             isFolder,
           }

@@ -76,20 +76,20 @@ const VideoPlayer: FC<{
 
 const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
-  const hashedToken = getStoredToken(asPath)
+  const [_, token] = getStoredToken(asPath)
   const clipboard = useClipboard()
 
   const [menuOpen, setMenuOpen] = useState(false)
 
   // OneDrive generates thumbnails for its video files, we pick the thumbnail with the highest resolution
-  const thumbnail = `/api/thumbnail?path=${asPath}&size=large${hashedToken ? `&odpt=${hashedToken}` : ''}`
+  const thumbnail = `/api/thumbnail?path=${asPath}&size=large${token ? `&odpt=${token}` : ''}`
 
   // We assume subtitle files are beside the video with the same name, only webvtt '.vtt' files are supported
   const vtt = `${asPath.substring(0, asPath.lastIndexOf('.'))}.vtt`
-  const subtitle = `/api/raw?path=${vtt}${hashedToken ? `&odpt=${hashedToken}` : ''}`
+  const subtitle = `/api/raw?path=${vtt}${token ? `&odpt=${token}` : ''}`
 
   // We also format the raw video file for the in-browser player as well as all other players
-  const videoUrl = `/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`
+  const videoUrl = `/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`
 
   const isFlv = getExtension(file.name) === 'flv'
   const {
@@ -133,9 +133,7 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             btnIcon="file-download"
           />
           <DownloadButton
-            onClickCallback={() =>
-              window.open(`/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`)
-            }
+            onClickCallback={() => window.open(`/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}&proxy=true`)}
             btnColor="yellow"
             btnText={'Proxy Download'}
             btnIcon="download"
@@ -144,7 +142,7 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
           />
           <DownloadButton
             onClickCallback={() => {
-              clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)
+              clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}`)
               toast.success('Copied direct link to clipboard.')
             }}
             btnColor="pink"
@@ -153,9 +151,7 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
           />
           <DownloadButton
             onClickCallback={() => {
-              clipboard.copy(
-                `${getBaseUrl()}/api/raw?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}&proxy=true`,
-              )
+              clipboard.copy(`${getBaseUrl()}/api/raw?path=${asPath}${token ? `&odpt=${token}` : ''}&proxy=true`)
               toast.success('Copied proxy link to clipboard.')
             }}
             btnColor="green"

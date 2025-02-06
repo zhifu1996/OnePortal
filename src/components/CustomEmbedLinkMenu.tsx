@@ -48,7 +48,7 @@ export default function CustomEmbedLinkMenu({
   menuOpen: boolean
   setMenuOpen: Dispatch<SetStateAction<boolean>>
 }) {
-  const hashedToken = getStoredToken(path)
+  const [_, token] = getStoredToken(path)
 
   // Focus on input automatically when menu modal opens
   const focusInputRef = useRef<HTMLInputElement>(null)
@@ -148,21 +148,21 @@ export default function CustomEmbedLinkMenu({
 
                 <LinkContainer
                   title={'Default'}
-                  value={`${getBaseUrl()}/api/raw?path=${readablePath}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
+                  value={`${getBaseUrl()}/api/raw?path=${readablePath}${token ? `&odpt=${token}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'URL encoded'}
-                  value={`${getBaseUrl()}/api/raw?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
+                  value={`${getBaseUrl()}/api/raw?path=${path}${token ? `&odpt=${token}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'Customised'}
                   value={`${getBaseUrl()}/api/name/${name}?path=${readablePath}${
-                    hashedToken ? `&odpt=${hashedToken}` : ''
+                    token ? `&odpt=${token}` : ''
                   }${proxy ? '&proxy=true' : ''}`}
                 />
                 <LinkContainer
                   title={'Customised and encoded'}
-                  value={`${getBaseUrl()}/api/name/${name}?path=${path}${hashedToken ? `&odpt=${hashedToken}` : ''}${proxy ? '&proxy=true' : ''}`}
+                  value={`${getBaseUrl()}/api/name/${name}?path=${path}${token ? `&odpt=${token}` : ''}${proxy ? '&proxy=true' : ''}`}
                 />
               </div>
             </DialogPanel>

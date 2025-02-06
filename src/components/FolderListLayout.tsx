@@ -45,7 +45,7 @@ const FolderListLayout = ({
   toast,
 }) => {
   const clipboard = useClipboard()
-  const hashedToken = getStoredToken(path)
+  const [_, token] = getStoredToken(path)
 
   // Get item path from item name
   const getItemPath = (name: string) => `${path === '/' ? '' : path}/${encodeURIComponent(name)}`
@@ -146,9 +146,7 @@ const FolderListLayout = ({
                 title={'Copy raw file permalink'}
                 className="cursor-pointer rounded px-1.5 py-1 hover:bg-gray-300 dark:hover:bg-gray-600"
                 onClick={() => {
-                  clipboard.copy(
-                    `${getBaseUrl()}/api/raw?path=${getItemPath(c.name)}${hashedToken ? `&odpt=${hashedToken}` : ''}`,
-                  )
+                  clipboard.copy(`${getBaseUrl()}/api/raw?path=${getItemPath(c.name)}${token ? `&odpt=${token}` : ''}`)
                   toast.success('Copied raw file permalink.')
                 }}
               >
@@ -157,7 +155,7 @@ const FolderListLayout = ({
               <a
                 title={'Download file'}
                 className="cursor-pointer rounded px-1.5 py-1 hover:bg-gray-300 dark:hover:bg-gray-600"
-                href={`/api/raw?path=${getItemPath(c.name)}${hashedToken ? `&odpt=${hashedToken}` : ''}`}
+                href={`/api/raw?path=${getItemPath(c.name)}${token ? `&odpt=${token}` : ''}`}
               >
                 <FontAwesomeIcon icon={['far', 'arrow-alt-circle-down']} />
               </a>

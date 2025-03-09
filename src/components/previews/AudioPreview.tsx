@@ -20,7 +20,7 @@ enum PlayerState {
 
 const AudioPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
-  const [_, token] = getStoredToken(asPath)
+  const token = getStoredToken(asPath)
 
   const rapRef = useRef<ReactAudioPlayer>(null)
   const [playerStatus, setPlayerStatus] = useState(PlayerState.Loading)

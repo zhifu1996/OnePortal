@@ -11,7 +11,7 @@ import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 const OfficePreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
-  const [_, token] = getStoredToken(asPath)
+  const token = getStoredToken(asPath)
 
   const docContainer = useRef<HTMLDivElement>(null)
   const [docContainerWidth, setDocContainerWidth] = useState(600)

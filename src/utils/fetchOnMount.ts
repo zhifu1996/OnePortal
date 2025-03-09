@@ -16,7 +16,7 @@ export default function useFileContent(
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const [_, token] = getStoredToken(path)
+    const token = getStoredToken(path)
     const url = fetchUrl + (token ? `&odpt=${encodeURIComponent(token)}` : '')
 
     axios

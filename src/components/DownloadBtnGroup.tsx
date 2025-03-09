@@ -67,7 +67,7 @@ export const DownloadButton = ({
 
 const DownloadButtonGroup = () => {
   const { asPath } = useRouter()
-  const [_, token] = getStoredToken(asPath)
+  const token = getStoredToken(asPath)
 
   const clipboard = useClipboard()
   const [menuOpen, setMenuOpen] = useState(false)

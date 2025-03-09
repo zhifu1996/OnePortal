@@ -12,7 +12,7 @@ import { getStoredToken } from '../utils/protectedRouteHandler'
 
 const GridItem = ({ c, path }: { c: OdFolderChildren; path: string }) => {
   // We use the generated medium thumbnail for rendering preview images (excluding folders)
-  const [_, token] = getStoredToken(path)
+  const token = getStoredToken(path)
   const thumbnailUrl =
     'folder' in c ? null : `/api/thumbnail?path=${path}&size=medium${token ? `&odpt=${encodeURIComponent(token)}` : ''}`
 
@@ -68,7 +68,7 @@ const FolderGridLayout = ({
   toast,
 }) => {
   const clipboard = useClipboard()
-  const [_, token] = getStoredToken(path)
+  const token = getStoredToken(path)
 
   // Get item path from item name
   const getItemPath = (name: string) => `${path === '/' ? '' : path}/${encodeURIComponent(name)}`

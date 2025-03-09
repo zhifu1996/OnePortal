@@ -48,7 +48,7 @@ export default function CustomEmbedLinkMenu({
   menuOpen: boolean
   setMenuOpen: Dispatch<SetStateAction<boolean>>
 }) {
-  const [_, token] = getStoredToken(path)
+  const token = getStoredToken(path)
 
   // Focus on input automatically when menu modal opens
   const focusInputRef = useRef<HTMLInputElement>(null)

@@ -180,14 +180,14 @@ interface TraverseItem {
  * Error key in the item will contain the error when there is a handleable error.
  */
 export async function* traverseFolder(path: string): AsyncGenerator<TraverseItem, void, undefined> {
-  const [pass, token] = getStoredToken(path)
+  const token = getStoredToken(path)
 
   // Generate the task passed to Promise.race to request a folder
   const genTask = async (i: number, path: string, next?: string) => {
     return {
       i,
       path,
-      data: await fetcher([next ? `/api?path=${path}&next=${next}` : `/api?path=${path}`, pass, token]).catch(
+      data: await fetcher([next ? `/api?path=${path}&next=${next}` : `/api?path=${path}`, token]).catch(
         error => ({ i, path, error }),
       ),
     }

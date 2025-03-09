@@ -76,7 +76,7 @@ const VideoPlayer: FC<{
 
 const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
-  const [_, token] = getStoredToken(asPath)
+  const token = getStoredToken(asPath)
   const clipboard = useClipboard()
 
   const [menuOpen, setMenuOpen] = useState(false)

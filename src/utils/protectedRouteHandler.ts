@@ -1,16 +1,10 @@
 import siteConfig from '../../config/site.config'
 
 // Fetch stored token from localStorage
-export function getStoredToken(path: string): [string | '', string | ''] {
+export function getStoredToken(path: string): string | '' {
   const pass =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem(`opt-auth-pass-${encodeURIComponent(matchProtectedRoute(path))}`) as string)
-      : ''
-  const token =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem(`opt-auth-token-${encodeURIComponent(matchProtectedRoute(path))}`) as string)
-      : ''
-  return [pass ? pass : '', token ? token : ''] as const
+    typeof window !== 'undefined' ? JSON.parse(localStorage.getItem(matchProtectedRoute(path)) as string) : ''
+  return pass ? pass : ('' as const)
 }
 
 /**

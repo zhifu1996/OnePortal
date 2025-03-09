@@ -154,56 +154,22 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   }>({})
 
   const router = useRouter()
-  const [pass, token] = getStoredToken(router.asPath)
-  const [layout] = useLocalStorage('preferredLayout', layouts[0])
+  const token = getStoredToken(router.asPath)
+  const [layout, _] = useLocalStorage('preferredLayout', layouts[0])
 
   const path = queryToPath(query)
-  // `path` has already been encoded, but '/' is not encoded. So we need to decode and encode it.
-  const [_, setToken] = useLocalStorage(`opt-auth-token-${encodeURIComponent(decodeURIComponent(path))}`, '')
 
   const { data, error, size, setSize } = useProtectedSWRInfinite(path)
 
-  useEffect(() => {
-    if (error && error.status === 403) {
-      setToken(error.message.error as string)
-    }
-  }, [error, setToken])
-
   if (error) {
-    // No password or password is incorrect
-    if (error.status === 400 || error.status === 401) {
-      return (
-        <PreviewContainer>
-          <Auth redirect={path} />
-        </PreviewContainer>
-      )
-    }
-
-    // Need to store opt-auth-token
     if (error.status === 403) {
-      // useEffect
-      router.reload()
-      return <div />
-    }
-
-    // Too many requests
-    if (error.status === 429) {
-      return (
-        <PreviewContainer>
-          <FourOhFour errorMsg={'Too many requests. Please try 30s later.'} />
-        </PreviewContainer>
-      )
-    }
-
-    // The user has not completed initial setup, redirect to OAuth page
-    if (error.status === 503) {
       router.push('/onedrive-oauth/step-1')
       return <div />
     }
 
     return (
       <PreviewContainer>
-        <FourOhFour errorMsg={`Error. Status: ${error.status}\nMessage: ${JSON.stringify(error.message)}`} />
+        {error.status === 401 ? <Auth redirect={path} /> : <FourOhFour errorMsg={JSON.stringify(error.message)} />}
       </PreviewContainer>
     )
   }
@@ -227,7 +193,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   if ('folder' in responses[0]) {
     // Expand list of API returns into flattened file data
     const folderChildren = ([].concat(...responses.map(r => r.folder.value)) as OdFolderObject['value']).filter(
-      item => item.name.toLowerCase() !== '.password' && item.name.toLowerCase() !== '.totp',
+      item => item.name.toLowerCase() !== '.password',
     )
 
     // Find README.md file to render
@@ -320,7 +286,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
             toast.error(`Failed to download folder ${p}: ${error.status} ${error.message} Skipped it to continue.`)
             continue
           }
-          const [_, tokenForPath] = getStoredToken(p)
+          const tokenForPath = getStoredToken(p)
           yield {
             name: c?.name,
             url: `/api/raw?path=${p}${tokenForPath ? `&odpt=${encodeURIComponent(tokenForPath)}` : ''}`,

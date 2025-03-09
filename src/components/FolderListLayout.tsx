@@ -45,7 +45,7 @@ const FolderListLayout = ({
   toast,
 }) => {
   const clipboard = useClipboard()
-  const [_, token] = getStoredToken(path)
+  const token = getStoredToken(path)
 
   // Get item path from item name
   const getItemPath = (name: string) => `${path === '/' ? '' : path}/${encodeURIComponent(name)}`

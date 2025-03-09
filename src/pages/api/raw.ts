@@ -21,12 +21,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response(JSON.stringify({ error: 'No path specified.' }), { status: 400 })
   }
 
-  const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path)).replace('.password', '').replace('.totp', '')
+  const cleanPath = pathPosix.resolve('/', pathPosix.normalize(path)).replace('.password', '')
 
   // Handle protected routes authentication
-  const token = (req.headers.get('opt-auth-token') as string) ?? decodeURIComponent(odpt)
-
-  const { code, message } = await checkAuthRoute(cleanPath, accessToken, '', token)
+  const pass = (req.headers.get('opt-auth-pass') as string) ?? decodeURIComponent(odpt)
+  const { code, message } = await checkAuthRoute(cleanPath, accessToken, pass)
   // Status code other than 200 means user has not authenticated yet
   if (code !== 200) {
     return new Response(JSON.stringify({ error: message }), { status: code })

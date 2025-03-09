@@ -27,9 +27,7 @@ Compared with [onedrive-cf-index-ng](https://github.com/lyc8503/onedrive-cf-inde
 - 🔍 Improved file search with Microsoft Graph Search API
   * The original version uses OneDrive Search API, which randomly misses files and is basically unusable.
 - 🔐 Improve security by:
-  - allowing to use TOTP instead of password
   - set custom AES secret key and client secret in environment variables
-  - rate limit for TOTP authentication
 - 😋 Better user interface
 - 🍪 Edge function caching for faster load times
 - 🛠️ More environment variables

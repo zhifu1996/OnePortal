@@ -31,7 +31,7 @@ const Navbar = () => {
   useEffect(() => {
     const storedToken = () => {
       for (const r of siteConfig.protectedRoutes) {
-        if (localStorage.hasOwnProperty(`opt-auth-token-${encodeURIComponent(r)}`)) {
+        if (localStorage.hasOwnProperty(r)) {
           return true
         }
       }
@@ -44,8 +44,7 @@ const Navbar = () => {
     setIsOpen(false)
 
     siteConfig.protectedRoutes.forEach(r => {
-      localStorage.removeItem(`opt-auth-token-${encodeURIComponent(r)}`)
-      localStorage.removeItem(`opt-auth-pass-${encodeURIComponent(r)}`)
+      localStorage.removeItem(r)
     })
 
     toast.success('Cleared all tokens')

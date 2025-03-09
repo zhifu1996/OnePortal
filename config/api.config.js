@@ -12,7 +12,7 @@ module.exports = {
   // If this is changed, obfuscatedClientSecret should also be changed.
   // Use https://it-tools.tech/encryption to decrypt obfuscatedClientSecret with secret key 'OnePortal',
   // and then use your own secret key to encrypt it again.
-  aesKey: process.env.AES_SECRET_KEY || 'OnePortal',
+  aesKey: process.env.AES_SECRET_KEY || process.env.AES_KEY || 'OnePortal',
 
   // The clientId and clientSecret are used to authenticate the user with Microsoft Graph API using OAuth. You would
   // not need to change anything here if you can authenticate with your personal Microsoft account with OneDrive International.

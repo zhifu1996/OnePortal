@@ -30,7 +30,8 @@ module.exports = {
 
   // [OPTIONAL] If you have network problems when connecting github.io
   // you could replace it to somewhere proxies that.
-  PDFPreviewUrlPrefix: process.env.PDF_PREVIEW_URL_PREFIX || 'https://mozilla.github.io/pdf.js/web/viewer.html?file=',
+  // TODO: replace github.io with a better solution
+  PDFPreviewUrlPrefix: 'https://mozilla.github.io/pdf.js/web/viewer.html?file=',
 
   // [OPTIONAL] We use Google Fonts natively for font customisations.
   // You can check and generate the required links and names at https://fonts.google.com.

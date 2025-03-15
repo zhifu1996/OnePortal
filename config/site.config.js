@@ -54,8 +54,9 @@ module.exports = {
     ? process.env.NEXT_PUBLIC_ROUTES.split(',')
     : []),
 
-  // [OPTIONAL] Use "" here if you want to remove this email address from the nav bar.
-  email: process.env.NEXT_PUBLIC_EMAIL || 'mailto:i@example.com',
+  // [OPTIONAL] Leave it empty if you want to remove this email address from the nav bar.
+  // Format: mailto:i@example.com
+  email: process.env.NEXT_PUBLIC_EMAIL || '',
   // [OPTIONAL] This is an array of names and links for setting your social information and links.
   // In the latest update, all brand icons inside font awesome is supported and the icon to render is based on the name
   // you provide. See the documentation for details.

@@ -49,7 +49,7 @@ function useDriveItemSearch() {
     const { data } = await axios.get<OdSearchResult>(`/api/search?q=${q}`)
     const items = await Promise.all(
       data.map(async id => {
-        const { data } = await axios.get<OdDriveItem>(`/api/item?id=${id}`)
+        const { data } = await axios.get<OdDriveItem | null>(`/api/item?id=${id}`)
         return data
       }),
     )

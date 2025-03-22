@@ -12,6 +12,7 @@ export const runtime = 'edge'
 
 const basePath = pathPosix.resolve('/', siteConfig.baseDirectory)
 const clientSecret = revealObfuscatedToken(apiConfig.obfuscatedClientSecret)
+const protectedRoutes = siteConfig.protectedRoutes.map(r => r.toLowerCase().replace(/\/$/, '') + '/')
 
 /**
  * Encode the path of the file relative to the base directory
@@ -38,39 +39,41 @@ export async function getAccessToken(): Promise<string> {
 
   // Return in storage access token if it is still valid
   if (typeof accessToken === 'string') {
-    console.log('Fetch access token from storage.')
     return accessToken
   }
 
   // Return empty string if no refresh token is stored, which requires the application to be re-authenticated
   if (typeof refreshToken !== 'string') {
-    console.log('No refresh token, return empty access token.')
     return ''
   }
 
   // Fetch new access token with in storage refresh token
-  const body = new URLSearchParams()
-  body.append('client_id', apiConfig.clientId)
-  body.append('redirect_uri', apiConfig.redirectUri)
-  body.append('client_secret', clientSecret)
-  body.append('refresh_token', refreshToken)
-  body.append('grant_type', 'refresh_token')
-
-  const resp = await axios.post(apiConfig.authApi, body, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+  const body = new URLSearchParams({
+    client_id: apiConfig.clientId,
+    redirect_uri: apiConfig.redirectUri,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
+    grant_type: 'refresh_token'
   })
 
-  if ('access_token' in resp.data && 'refresh_token' in resp.data) {
-    const { expires_in, access_token, refresh_token } = resp.data
-    await storeOdAuthTokens({
-      accessToken: access_token,
-      accessTokenExpiry: parseInt(expires_in),
-      refreshToken: refresh_token,
+  try {
+    const resp = await axios.post(apiConfig.authApi, body, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     })
-    console.log('Fetch new access token with stored refresh token.')
-    return access_token
+
+    if ('access_token' in resp.data && 'refresh_token' in resp.data) {
+      const { expires_in, access_token, refresh_token } = resp.data
+      await storeOdAuthTokens({
+        accessToken: access_token,
+        accessTokenExpiry: parseInt(expires_in),
+        refreshToken: refresh_token,
+      })
+      return access_token
+    }
+  } catch (error) {
+    // Silent fail and return empty token
   }
 
   return ''
@@ -87,7 +90,7 @@ async function checkFileExists(filePath: string, accessToken: string): Promise<b
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     return true
-  } catch (error: any) {
+  } catch {
     return false
   }
 }
@@ -102,21 +105,16 @@ export async function getAuthFilePath(path: string, accessToken: string) {
   // Ensure trailing slashes to compare paths component by component. Same for protectedRoutes.
   // Since OneDrive ignores case, lower case before comparing. Same for protectedRoutes.
   path = path.toLowerCase() + '/'
-  const protectedRoutes = siteConfig.protectedRoutes as string[]
-  let authFilePath = ''
 
-  for (let r of protectedRoutes) {
-    r = r.toLowerCase().replace(/\/$/, '') + '/'
+  for (const r of protectedRoutes) {
     if (path.startsWith(r)) {
       const passwordPath = `${r}.password`
-      const passwordExists = await checkFileExists(passwordPath, accessToken)
-      if (passwordExists) {
-        authFilePath = passwordPath
-        break
+      if (await checkFileExists(passwordPath, accessToken)) {
+        return passwordPath
       }
     }
   }
-  return authFilePath
+  return ''
 }
 
 /**
@@ -163,21 +161,17 @@ export async function checkAuthRoute(
       return { code: 200, message: 'Authenticated.' }
     }
 
-    if (!authPassword) authPassword = ''
-
-    // Ask user to enter password
-    if (authPassword === '') {
+    if (!authPassword) {
       return { code: 401, message: 'Password required.' }
     }
 
     if (authFilePath.endsWith('.password')) {
       const password = await fetchProtectedContent(authFilePath, accessToken)
-      if (authPassword === password) return { code: 200, message: 'Authenticated.' }
-      else {
-        return { code: 401, message: 'Unauthorized.' }
-      }
+      return authPassword === password
+        ? { code: 200, message: 'Authenticated.' }
+        : { code: 401, message: 'Unauthorized.' }
     }
-  } catch (error: any) {
+  } catch {
     return {
       code: 500,
       message: 'Internal server error. Please check your authentication configuration.',
@@ -229,8 +223,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response(JSON.stringify({ error: 'No access token.' }), { status: 503 })
   }
 
-  // Handle protected routes authentication
-  const { code, message } = await checkAuthRoute(cleanPath, accessToken, req.headers.get('opt-auth-pass') as string)
+  const { code, message } = await checkAuthRoute(cleanPath, accessToken, req.headers.get('opt-auth-pass') || '')
 
   // Status code other than 200 means user has not authenticated yet
   if (code !== 200) {
@@ -252,9 +245,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
       },
     })
 
-    // Set edge function caching for faster load times
-    const headers: HeadersInit = {}
-    headers['Cache-Control'] = apiConfig.cacheControlHeader
+    const headers = { 'Cache-Control': apiConfig.cacheControlHeader }
 
     if ('folder' in identityData) {
       const { data: folderData } = await axios.get(`${requestUrl}${isRoot ? '' : ':'}/children`, {
@@ -274,17 +265,17 @@ export default async function handler(req: NextRequest): Promise<Response> {
         ? folderData['@odata.nextLink'].match(/&\$skiptoken=(.+)/i)[1]
         : null
 
-      // Return paging token if specified
-      if (nextPage) {
-        return new NextResponse(JSON.stringify({ folder: folderData, next: nextPage }), { headers })
-      } else {
-        return new NextResponse(JSON.stringify({ folder: folderData }), { headers })
-      }
+      return new NextResponse(
+        JSON.stringify(nextPage ? { folder: folderData, next: nextPage } : { folder: folderData }),
+        { headers }
+      )
     }
+
     return new NextResponse(JSON.stringify({ file: identityData }), { headers })
   } catch (error: any) {
-    return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
-      status: error?.response?.code ?? 500,
-    })
+    return new Response(
+      JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }),
+      { status: error?.response?.code ?? 500 }
+    )
   }
 }

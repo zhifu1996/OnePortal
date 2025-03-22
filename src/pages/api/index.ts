@@ -1,6 +1,5 @@
 import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
-import { KVNamespace } from '@cloudflare/workers-types'
 
 import apiConfig from '../../../config/api.config'
 import siteConfig from '../../../config/site.config'
@@ -53,7 +52,7 @@ export async function getAccessToken(): Promise<string> {
     redirect_uri: apiConfig.redirectUri,
     client_secret: clientSecret,
     refresh_token: refreshToken,
-    grant_type: 'refresh_token'
+    grant_type: 'refresh_token',
   })
 
   try {
@@ -267,15 +266,14 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
       return new NextResponse(
         JSON.stringify(nextPage ? { folder: folderData, next: nextPage } : { folder: folderData }),
-        { headers }
+        { headers },
       )
     }
 
     return new NextResponse(JSON.stringify({ file: identityData }), { headers })
   } catch (error: any) {
-    return new Response(
-      JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }),
-      { status: error?.response?.code ?? 500 }
-    )
+    return new Response(JSON.stringify({ error: error?.response?.data ?? 'Internal server error.' }), {
+      status: error?.response?.code ?? 500,
+    })
   }
 }

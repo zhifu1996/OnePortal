@@ -7,6 +7,18 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const runtime = 'edge'
 
+const ID_PATTERN = /^[a-zA-Z0-9]+$/
+const RESP_HEADERS = {
+  'content-type': 'application/json',
+  'Cache-Control': apiConfig.cacheControlHeader,
+}
+
+function createNullResponse() {
+  return new NextResponse(JSON.stringify(null), {
+    headers: RESP_HEADERS,
+  })
+}
+
 export default async function handler(req: NextRequest): Promise<Response> {
   // Get access token from storage
   const accessToken = await getAccessToken()
@@ -14,8 +26,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // Get item details (specifically, its path) by its unique ID in OneDrive
   const { id = '' } = Object.fromEntries(req.nextUrl.searchParams)
 
-  const idPattern = /^[a-zA-Z0-9]+$/
-  if (!idPattern.test(id)) {
+  if (!id || !ID_PATTERN.test(id)) {
     // ID contains characters other than letters and numbers
     return new Response(JSON.stringify({ error: 'Invalid driveItem ID.' }), { status: 400 })
   }
@@ -30,13 +41,9 @@ export default async function handler(req: NextRequest): Promise<Response> {
     })
 
     // Check if the item is under baseDirectory
-    if (!data.parentReference.path.startsWith(`/drive/root:${siteConfig.baseDirectory}`)) {
-      return new NextResponse(JSON.stringify(null), {
-        headers: {
-          'content-type': 'application/json',
-          'Cache-Control': apiConfig.cacheControlHeader,
-        },
-      })
+    const basePrefix = `/drive/root:${siteConfig.baseDirectory}`
+    if (!data.parentReference.path.startsWith(basePrefix)) {
+      createNullResponse()
     }
 
     // Remove baseDirectory
@@ -44,19 +51,11 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
     return new NextResponse(JSON.stringify(data), {
       status: 200,
-      headers: {
-        'content-type': 'application/json',
-        'Cache-Control': apiConfig.cacheControlHeader,
-      },
+      headers: RESP_HEADERS,
     })
   } catch (error: any) {
     if (error?.status === 404) {
-      return new NextResponse('null', {
-        headers: {
-          'content-type': 'application/json',
-          'Cache-Control': apiConfig.cacheControlHeader,
-        },
-      })
+      createNullResponse()
     }
 
     return new Response(JSON.stringify({ error: error?.data ?? 'Internal server error.' }), {

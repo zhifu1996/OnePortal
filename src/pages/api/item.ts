@@ -13,12 +13,6 @@ const RESP_HEADERS = {
   'Cache-Control': apiConfig.cacheControlHeader,
 }
 
-function createNullResponse() {
-  return new NextResponse(JSON.stringify(null), {
-    headers: RESP_HEADERS,
-  })
-}
-
 export default async function handler(req: NextRequest): Promise<Response> {
   // Get access token from storage
   const accessToken = await getAccessToken()
@@ -43,7 +37,9 @@ export default async function handler(req: NextRequest): Promise<Response> {
     // Check if the item is under baseDirectory
     const basePrefix = `/drive/root:${siteConfig.baseDirectory}`
     if (!data.parentReference.path.startsWith(basePrefix)) {
-      createNullResponse()
+      return new NextResponse(JSON.stringify(null), {
+        headers: RESP_HEADERS,
+      })
     }
 
     // Remove baseDirectory
@@ -55,7 +51,9 @@ export default async function handler(req: NextRequest): Promise<Response> {
     })
   } catch (error: any) {
     if (error?.status === 404) {
-      createNullResponse()
+      return new NextResponse(JSON.stringify(null), {
+        headers: RESP_HEADERS,
+      })
     }
 
     return new Response(JSON.stringify({ error: error?.data ?? 'Internal server error.' }), {

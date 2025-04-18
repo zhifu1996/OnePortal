@@ -76,6 +76,7 @@
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
+    "arrowParens": "avoid",
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]

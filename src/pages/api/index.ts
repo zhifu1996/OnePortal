@@ -219,7 +219,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
   // Return error 403 if access_token is empty
   if (!accessToken) {
-    return new Response(JSON.stringify({ error: 'No access token.' }), { status: 503 })
+    return new Response(JSON.stringify({ error: 'No access token.' }), { status: 403 })
   }
 
   const { code, message } = await checkAuthRoute(cleanPath, accessToken, req.headers.get('opt-auth-pass') || '')

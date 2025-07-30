@@ -1,19 +1,19 @@
-import { CSSProperties, FC, ReactNode } from 'react'
+import type { CSSProperties, FC, ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import remarkMath from 'remark-math'
+import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { tomorrowNight } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
-import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { tomorrowNight } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 
 import 'katex/dist/katex.min.css'
 
-import useFileContent from '../../utils/fetchOnMount'
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import FourOhFour from '@/components/FourOhFour'
+import Loading from '@/components/Loading'
+import useFileContent from '@/utils/fetchOnMount'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const MarkdownPreview: FC<{

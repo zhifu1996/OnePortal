@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGroup'
-import useFileContent from '../../utils/fetchOnMount'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import FourOhFour from '@/components/FourOhFour'
+import Loading from '@/components/Loading'
+import useFileContent from '@/utils/fetchOnMount'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const TextPreview = ({ file }) => {

@@ -1,15 +1,13 @@
-import { MouseEventHandler, useState } from 'react'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import toast from 'react-hot-toast'
-import { useClipboard } from 'use-clipboard-copy'
-
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-
-import siteConfig from '../../config/site.config'
-import { getBaseUrl } from '../utils/getBaseUrl'
-import { getStoredToken } from '../utils/protectedRouteHandler'
+import { type MouseEventHandler, useState } from 'react'
+import toast from 'react-hot-toast'
+import { useClipboard } from 'use-clipboard-copy'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
+import siteConfig from '~config/site.config'
 import CustomEmbedLinkMenu from './CustomEmbedLinkMenu'
 
 const btnStyleMap = (btnColor?: string) => {

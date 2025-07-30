@@ -1,4 +1,4 @@
-import siteConfig from '../../config/site.config'
+import siteConfig from '~config/site.config'
 
 // Fetch stored token from localStorage
 export function getStoredToken(path: string): string | '' {

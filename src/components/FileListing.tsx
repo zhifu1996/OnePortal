@@ -1,43 +1,39 @@
-import type { OdFileObject, OdFolderChildren, OdFolderObject } from '../types'
-import { ParsedUrlQuery } from 'querystring'
-import { FC, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import toast, { Toaster } from 'react-hot-toast'
 import emojiRegex from 'emoji-regex'
-
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-
-import useLocalStorage from '../utils/useLocalStorage'
-import { getPreviewType, preview } from '../utils/getPreviewType'
-import { useProtectedSWRInfinite } from '../utils/fetchWithSWR'
-import { getExtension, getFileIcon, getRawExtension } from '../utils/getFileIcon'
-import { getStoredToken } from '../utils/protectedRouteHandler'
+import type { ParsedUrlQuery } from 'querystring'
+import { type FC, type MouseEventHandler, type SetStateAction, useEffect, useRef, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import type { OdFileObject, OdFolderChildren, OdFolderObject } from '@/types'
+import { useProtectedSWRInfinite } from '@/utils/fetchWithSWR'
+import { getExtension, getFileIcon, getRawExtension } from '@/utils/getFileIcon'
+import { getPreviewType, preview } from '@/utils/getPreviewType'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
+import useLocalStorage from '@/utils/useLocalStorage'
+import Auth from './Auth'
+import FolderGridLayout from './FolderGridLayout'
+import FolderListLayout from './FolderListLayout'
+import FourOhFour from './FourOhFour'
+import Loading, { LoadingIcon } from './Loading'
 import {
   DownloadingToast,
   downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
 } from './MultiFileDownloader'
-
-import { layouts } from './SwitchLayout'
-import Loading, { LoadingIcon } from './Loading'
-import FourOhFour from './FourOhFour'
-import Auth from './Auth'
-import TextPreview from './previews/TextPreview'
-import MarkdownPreview from './previews/MarkdownPreview'
-import CodePreview from './previews/CodePreview'
-import OfficePreview from './previews/OfficePreview'
 import AudioPreview from './previews/AudioPreview'
-import VideoPreview from './previews/VideoPreview'
-import PDFPreview from './previews/PDFPreview'
-import URLPreview from './previews/URLPreview'
-import ImagePreview from './previews/ImagePreview'
-import DefaultPreview from './previews/DefaultPreview'
+import CodePreview from './previews/CodePreview'
 import { PreviewContainer } from './previews/Containers'
-
-import FolderListLayout from './FolderListLayout'
-import FolderGridLayout from './FolderGridLayout'
+import DefaultPreview from './previews/DefaultPreview'
+import ImagePreview from './previews/ImagePreview'
+import MarkdownPreview from './previews/MarkdownPreview'
+import OfficePreview from './previews/OfficePreview'
+import PDFPreview from './previews/PDFPreview'
+import TextPreview from './previews/TextPreview'
+import URLPreview from './previews/URLPreview'
+import VideoPreview from './previews/VideoPreview'
+import { layouts } from './SwitchLayout'
 
 // Disabling SSR for some previews
 const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), {

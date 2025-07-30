@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import { DownloadButton } from '../DownloadBtnGroup'
-import useFileContent from '../../utils/fetchOnMount'
+import { DownloadButton } from '@/components/DownloadBtnGroup'
+import FourOhFour from '@/components/FourOhFour'
+import Loading from '@/components/Loading'
+import useFileContent from '@/utils/fetchOnMount'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const parseDotUrl = (content: string): string | undefined => {

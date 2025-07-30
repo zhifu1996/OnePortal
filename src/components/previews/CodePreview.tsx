@@ -1,15 +1,13 @@
-import { FC } from 'react'
-import useSystemTheme from 'react-use-system-theme'
 import { useRouter } from 'next/router'
-
+import type { FC } from 'react'
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow, tomorrowNightEighties } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
-
-import useFileContent from '../../utils/fetchOnMount'
-import { getLanguageByFileName } from '../../utils/getPreviewType'
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import useSystemTheme from 'react-use-system-theme'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import FourOhFour from '@/components/FourOhFour'
+import Loading from '@/components/Loading'
+import useFileContent from '@/utils/fetchOnMount'
+import { getLanguageByFileName } from '@/utils/getPreviewType'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const CodePreview: FC<{ file: any }> = ({ file }) => {

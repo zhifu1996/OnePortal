@@ -1,15 +1,13 @@
-import type { OdFileObject } from '../../types'
-import { FC, useEffect, useRef, useState } from 'react'
-
-import ReactAudioPlayer from 'react-audio-player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
-
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import { type FC, useEffect, useRef, useState } from 'react'
+import ReactAudioPlayer from 'react-audio-player'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import { LoadingIcon } from '@/components/Loading'
+import type { OdFileObject } from '@/types'
+import { formatModifiedDateTime } from '@/utils/fileDetails'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
-import { LoadingIcon } from '../Loading'
-import { formatModifiedDateTime } from '../../utils/fileDetails'
-import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 enum PlayerState {
   Loading,

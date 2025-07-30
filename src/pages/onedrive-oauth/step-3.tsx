@@ -1,15 +1,13 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import siteConfig from '../../../config/site.config'
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-
-import { getAuthPersonInfo, requestTokenWithAuthCode, sendTokenToServer } from '../../utils/oAuthHandler'
-import { LoadingIcon } from '../../components/Loading'
+import Footer from '@/components/Footer'
+import { LoadingIcon } from '@/components/Loading'
+import Navbar from '@/components/Navbar'
+import { getAuthPersonInfo, requestTokenWithAuthCode, sendTokenToServer } from '@/utils/oAuthHandler'
+import siteConfig from '~config/site.config'
 
 export const runtime = 'experimental-edge'
 

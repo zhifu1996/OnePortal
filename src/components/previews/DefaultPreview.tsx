@@ -1,12 +1,9 @@
-import type { OdFileObject } from '../../types'
-import { FC } from 'react'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import { getFileIcon } from '../../utils/getFileIcon'
-import { formatModifiedDateTime, humanFileSize } from '../../utils/fileDetails'
-
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import type { FC } from 'react'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import type { OdFileObject } from '@/types'
+import { formatModifiedDateTime, humanFileSize } from '@/utils/fileDetails'
+import { getFileIcon } from '@/utils/getFileIcon'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
 
 const DefaultPreview: FC<{ file: OdFileObject }> = ({ file }) => {

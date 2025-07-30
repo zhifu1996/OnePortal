@@ -1,26 +1,22 @@
-import type { OdFileObject } from '../../types'
-
-import { FC, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
+import { type FC, useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
+import toast from 'react-hot-toast'
 import { useClipboard } from 'use-clipboard-copy'
-
-import { getBaseUrl } from '../../utils/getBaseUrl'
-import { getExtension } from '../../utils/getFileIcon'
-import { getStoredToken } from '../../utils/protectedRouteHandler'
-
-import { DownloadButton } from '../DownloadBtnGroup'
+import CustomEmbedLinkMenu from '@/components/CustomEmbedLinkMenu'
+import { DownloadButton } from '@/components/DownloadBtnGroup'
+import FourOhFour from '@/components/FourOhFour'
+import Loading from '@/components/Loading'
+import type { OdFileObject } from '@/types'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+import { getExtension } from '@/utils/getFileIcon'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
 import { DownloadBtnContainer, PreviewContainer } from './Containers'
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 
 import 'plyr-react/plyr.css'
-import siteConfig from '../../../config/site.config'
+import siteConfig from '~config/site.config'
 
 const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
 

@@ -1,13 +1,12 @@
-import type { OdFileObject } from '../../types'
-
-import { FC, useEffect, useRef, useState } from 'react'
-import { ReactReader } from 'react-reader'
 import { useRouter } from 'next/router'
 
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import { type FC, useEffect, useRef, useState } from 'react'
+import { ReactReader } from 'react-reader'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import Loading from '@/components/Loading'
+import type { OdFileObject } from '@/types'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
 import { DownloadBtnContainer } from './Containers'
-import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const { asPath } = useRouter()
@@ -27,7 +26,7 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   // https://github.com/gerhardsletten/react-reader/issues/33#issuecomment-673964947
   const fixEpub = rendition => {
     const spineGet = rendition.book.spine.get.bind(rendition.book.spine)
-    rendition.book.spine.get = function (target: string) {
+    rendition.book.spine.get = (target: string) => {
       const targetStr = target as string
       let t = spineGet(target)
       while (t == null && targetStr.startsWith('../')) {

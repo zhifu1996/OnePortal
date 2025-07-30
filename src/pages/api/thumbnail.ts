@@ -1,11 +1,10 @@
-import type { OdThumbnail } from '../../types'
+import type { NextRequest } from 'next/server'
 
 import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
-
+import apiConfig from '~config/api.config'
+import type { OdThumbnail } from '@/types'
 import { checkAuthRoute, encodePath, getAccessToken } from '.'
-import apiConfig from '../../../config/api.config'
-import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 

@@ -1,4 +1,4 @@
-import { default as rawFileHandler } from '../raw'
+import { default as rawFileHandler } from '@/pages/api/raw'
 import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'

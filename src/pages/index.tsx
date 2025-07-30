@@ -1,11 +1,10 @@
 import Head from 'next/head'
-
-import siteConfig from '../../config/site.config'
-import Navbar from '../components/Navbar'
-import FileListing from '../components/FileListing'
-import Footer from '../components/Footer'
-import Breadcrumb from '../components/Breadcrumb'
-import SwitchLayout from '../components/SwitchLayout'
+import Breadcrumb from '@/components/Breadcrumb'
+import FileListing from '@/components/FileListing'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
+import SwitchLayout from '@/components/SwitchLayout'
+import siteConfig from '~config/site.config'
 
 export default function Home() {
   return (

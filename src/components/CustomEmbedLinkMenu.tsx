@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   Description,
   Dialog,
@@ -9,13 +9,12 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { type Dispatch, Fragment, type SetStateAction, useRef, useState } from 'react'
 import { useClipboard } from 'use-clipboard-copy'
-
-import siteConfig from '../../config/site.config'
-import { getBaseUrl } from '../utils/getBaseUrl'
-import { getStoredToken } from '../utils/protectedRouteHandler'
-import { getReadablePath } from '../utils/getReadablePath'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+import { getReadablePath } from '@/utils/getReadablePath'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
+import siteConfig from '~config/site.config'
 
 function LinkContainer({ title, value }: { title: string; value: string }) {
   const clipboard = useClipboard({ copiedTimeout: 1000 })

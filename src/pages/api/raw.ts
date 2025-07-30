@@ -1,10 +1,9 @@
+import type { NextRequest } from 'next/server'
 import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
-
-import siteConfig from '../../../config/site.config'
-import { cacheControlHeader, driveApi } from '../../../config/api.config'
+import { cacheControlHeader, driveApi } from '~config/api.config'
+import siteConfig from '~config/site.config'
 import { checkAuthRoute, encodePath, getAccessToken } from '.'
-import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
@@ -31,7 +30,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
     return new Response(JSON.stringify({ error: message }), { status: code })
   }
 
-  let headers = {
+  const headers = {
     'Cache-Control': cacheControlHeader,
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',

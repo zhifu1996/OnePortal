@@ -1,7 +1,8 @@
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
-import '../styles/globals.css'
-import '../styles/markdown-github.css'
+import '@/styles/globals.css'
+import '@/styles/markdown-github.css'
+import * as Icons from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowAltCircleDown,
   faCheckCircle,
@@ -52,7 +53,6 @@ import {
   faThList,
   faUndo,
 } from '@fortawesome/free-solid-svg-icons'
-import * as Icons from '@fortawesome/free-brands-svg-icons'
 
 import type { AppProps } from 'next/app'
 import NextNProgress from 'nextjs-progressbar'

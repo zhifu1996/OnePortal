@@ -1,20 +1,17 @@
-import axios from 'axios'
-import useSWR, { SWRResponse } from 'swr'
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
-import AwesomeDebouncePromise from 'awesome-debounce-promise'
-import { useAsync } from 'react-async-hook'
-import useConstant from 'use-constant'
-
-import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
-
-import type { OdDriveItem, OdSearchResult } from '../types'
+import AwesomeDebouncePromise from 'awesome-debounce-promise'
+import axios from 'axios'
+import Link from 'next/link'
+import { type Dispatch, Fragment, type SetStateAction, useState } from 'react'
+import { useAsync } from 'react-async-hook'
+import useSWR, { type SWRResponse } from 'swr'
+import useConstant from 'use-constant'
+import type { OdDriveItem, OdSearchResult } from '@/types'
+import { fetcher } from '@/utils/fetchWithSWR'
+import { getFileIcon } from '@/utils/getFileIcon'
+import siteConfig from '~config/site.config'
 import { LoadingIcon } from './Loading'
-
-import { getFileIcon } from '../utils/getFileIcon'
-import { fetcher } from '../utils/fetchWithSWR'
-import siteConfig from '../../config/site.config'
 
 /**
  * Extract the searched item's path in field 'parentReference' and convert it to the

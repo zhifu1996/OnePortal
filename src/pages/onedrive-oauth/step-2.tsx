@@ -1,14 +1,13 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import siteConfig from '../../../config/site.config'
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-import { LoadingIcon } from '../../components/Loading'
-import { extractAuthCodeFromRedirected, generateAuthorisationUrl } from '../../utils/oAuthHandler'
+import { LoadingIcon } from '@//components/Loading'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
+import { extractAuthCodeFromRedirected, generateAuthorisationUrl } from '@/utils/oAuthHandler'
+import siteConfig from '~config/site.config'
 
 export default function OAuthStep2() {
   const router = useRouter()

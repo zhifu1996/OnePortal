@@ -1,9 +1,8 @@
+import { type NextRequest, NextResponse } from 'next/server'
 import axios from 'redaxios'
-
+import apiConfig from '~config/api.config'
+import siteConfig from '~config/site.config'
 import { getAccessToken } from '.'
-import apiConfig from '../../../config/api.config'
-import siteConfig from '../../../config/site.config'
-import { NextRequest, NextResponse } from 'next/server'
 
 export const runtime = 'edge'
 

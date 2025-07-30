@@ -1,15 +1,13 @@
-import type { OdFolderChildren } from '../types'
-
-import Link from 'next/link'
-import { FC } from 'react'
-import { useClipboard } from 'use-clipboard-copy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { getBaseUrl } from '../utils/getBaseUrl'
-import { formatModifiedDateTime, humanFileSize } from '../utils/fileDetails'
-
+import Link from 'next/link'
+import type { FC } from 'react'
+import { useClipboard } from 'use-clipboard-copy'
+import type { OdFolderChildren } from '@/types'
+import { formatModifiedDateTime, humanFileSize } from '@/utils/fileDetails'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
 import { Checkbox, ChildIcon, ChildName, Downloading } from './FileListing'
-import { getStoredToken } from '../utils/protectedRouteHandler'
 
 const FileListItem: FC<{ fileContent: OdFolderChildren }> = ({ fileContent: c }) => {
   return (

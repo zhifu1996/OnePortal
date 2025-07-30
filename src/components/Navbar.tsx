@@ -1,17 +1,15 @@
+import type { IconName } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconName } from '@fortawesome/fontawesome-svg-core'
 import { Dialog, DialogBackdrop, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
-import toast, { Toaster } from 'react-hot-toast'
-import { useHotkeys } from 'react-hotkeys-hook'
-
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Fragment, useEffect, useState } from 'react'
-
-import siteConfig from '../../config/site.config'
+import toast, { Toaster } from 'react-hot-toast'
+import { useHotkeys } from 'react-hotkeys-hook'
+import useDeviceOS from '@/utils/useDeviceOS'
+import siteConfig from '~config/site.config'
 import SearchModal from './SearchModal'
-import useDeviceOS from '../utils/useDeviceOS'
 
 const Navbar = () => {
   const router = useRouter()
@@ -31,7 +29,7 @@ const Navbar = () => {
   useEffect(() => {
     const storedToken = () => {
       for (const r of siteConfig.protectedRoutes) {
-        if (localStorage.hasOwnProperty(r)) {
+        if (Object.hasOwn(localStorage, r)) {
           return true
         }
       }

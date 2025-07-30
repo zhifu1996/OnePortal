@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
-import { getBaseUrl } from '../../utils/getBaseUrl'
-import { getStoredToken } from '../../utils/protectedRouteHandler'
-import DownloadButtonGroup from '../DownloadBtnGroup'
+import DownloadButtonGroup from '@/components/DownloadBtnGroup'
+import { getBaseUrl } from '@/utils/getBaseUrl'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
+import siteConfig from '~config/site.config'
 import { DownloadBtnContainer } from './Containers'
-import siteConfig from '../../../config/site.config'
 
 const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {
   const { asPath } = useRouter()

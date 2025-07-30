@@ -1,9 +1,9 @@
-import { NextRouter } from 'next/router'
-import toast from 'react-hot-toast'
 import JSZip from 'jszip'
+import type { NextRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
-import { fetcher } from '../utils/fetchWithSWR'
-import { getStoredToken } from '../utils/protectedRouteHandler'
+import { fetcher } from '@/utils/fetchWithSWR'
+import { getStoredToken } from '@/utils/protectedRouteHandler'
 
 /**
  * A loading toast component with file download progress support
@@ -196,7 +196,7 @@ export async function* traverseFolder(path: string): AsyncGenerator<TraverseItem
   }
 
   // Pool containing Promises of folder requests
-  let pool = [genTask(0, path)]
+  const pool = [genTask(0, path)]
 
   // Map as item buffer for folders with pagination
   const buf: { [k: string]: TraverseItem[] } = {}

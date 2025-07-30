@@ -24,8 +24,8 @@
 .markdown-body ol {
   @apply list-decimal;
 }
-pre[class*='language-'],
-code[class*='language-'] {
+pre[class*="language-"],
+code[class*="language-"] {
   @apply font-mono !important;
 }
 

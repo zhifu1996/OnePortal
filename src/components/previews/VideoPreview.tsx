@@ -22,7 +22,7 @@ import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 import 'plyr-react/plyr.css'
 import siteConfig from '../../../config/site.config'
 
-const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
+const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
 
 const VideoPlayer: FC<{
   videoName: string

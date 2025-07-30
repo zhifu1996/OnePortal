@@ -166,9 +166,8 @@ export async function checkAuthRoute(
 
     if (authFilePath.endsWith('.password')) {
       const password = await fetchProtectedContent(authFilePath, accessToken)
-      webTimingSafeEqual(authPassword, password)
-        ? { code: 200, message: 'Authenticated.' }
-        : { code: 401, message: 'Unauthorized.' }
+      const result: boolean = await webTimingSafeEqual(authPassword, password)
+      return result ? { code: 200, message: 'Authenticated.' } : { code: 401, message: 'Unauthorized.' }
     }
   } catch {
     return {

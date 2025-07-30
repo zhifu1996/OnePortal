@@ -2,6 +2,7 @@
 
 let subtleCrypto
 
+// Set subtleCrypto based on the environment (Node.js or browser)
 if ('crypto' in global) {
   // Edge environment
   subtleCrypto = crypto.subtle
@@ -12,6 +13,12 @@ if ('crypto' in global) {
 
 /**
  * A timing-safe comparison function using the "Double HMAC verification" pattern.
+ *
+ * Inspired by:
+ * @see https://web.archive.org/web/20140715054701/https://www.isecpartners.com/blog/2011/february/double-hmac-verification.aspx
+ * @see https://paragonie.com/blog/2015/11/preventing-timing-attacks-on-string-comparison-with-double-hmac-strategy
+ * @see https://github.com/soatok/constant-time-js/blob/89892822cc225d2f36e64cf7b4de12ebc6b61c49/lib/equals.ts#L22-L34
+ *
  * @param {(string|Uint8Array)} left First value
  * @param {(string|Uint8Array)} right Second value
  * @param {object} [options] Optional options
@@ -22,6 +29,7 @@ if ('crypto' in global) {
  * @returns {boolean}
  */
 async function webTimingSafeEqual(left, right, options = {}) {
+  // Validate algorithms
   if (options?.keyAlgorithm) {
     validateAlgorithm(options?.keyAlgorithm)
   }
@@ -29,6 +37,7 @@ async function webTimingSafeEqual(left, right, options = {}) {
     validateAlgorithm(options?.hmacAlgorithm)
   }
 
+  // Use or generate new secretKey with optional values
   const secretKey =
     options?.secretKey ||
     (await generateSecretKey({
@@ -36,6 +45,7 @@ async function webTimingSafeEqual(left, right, options = {}) {
       ...(options.keyLength ? options.keyLength : {}),
     }))
 
+  // Set subtleCrypto based on the environment (Node.js or browser)
   const leftUint8Array = validateValueOrConvertToUint8Array(left)
   const rightUint8Array = validateValueOrConvertToUint8Array(right)
 

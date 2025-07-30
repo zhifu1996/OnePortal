@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import Plyr from 'plyr-react'
+import dynamic from 'next/dynamic'
 import { useAsync } from 'react-async-hook'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -21,6 +21,8 @@ import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 
 import 'plyr-react/plyr.css'
 import siteConfig from '../../../config/site.config'
+
+const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
 
 const VideoPlayer: FC<{
   videoName: string

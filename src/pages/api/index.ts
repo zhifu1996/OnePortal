@@ -3,6 +3,7 @@ import { posix as pathPosix } from 'path-browserify'
 import axios from 'redaxios'
 import { getAuthPersonInfo, revealObfuscatedToken } from '@/utils/oAuthHandler'
 import { getOdAuthTokens, storeOdAuthTokens } from '@/utils/odAuthTokenStore'
+import { webTimingSafeEqual } from '@/utils/timingSafeEqual'
 import apiConfig from '~config/api.config'
 import siteConfig from '~config/site.config'
 
@@ -165,7 +166,7 @@ export async function checkAuthRoute(
 
     if (authFilePath.endsWith('.password')) {
       const password = await fetchProtectedContent(authFilePath, accessToken)
-      return authPassword === password
+      webTimingSafeEqual(authPassword, password)
         ? { code: 200, message: 'Authenticated.' }
         : { code: 401, message: 'Unauthorized.' }
     }
